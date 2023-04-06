@@ -10,17 +10,21 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    
     steps:
-    - working-directory: backend
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
+      working-directory: backend
       run: dotnet restore
     - name: Build
+      working-directory: backend
       run: dotnet build --no-restore
     - name: Test
+      working-directory: backend
       run: dotnet test --no-build --verbosity normal
