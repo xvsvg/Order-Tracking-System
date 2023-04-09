@@ -10,4 +10,6 @@ public interface IOtsDatabaseContext
     DbSet<Person> People { get; set; }
     DbSet<Courier> Couriers { get; set; }
     DbSet<Customer> Customers { get; set; }
+
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
