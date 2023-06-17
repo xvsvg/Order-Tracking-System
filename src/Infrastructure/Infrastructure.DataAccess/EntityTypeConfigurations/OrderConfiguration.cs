@@ -11,9 +11,9 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.HasKey(x => x.OrderId);
         builder.Property(x => x.DispatchDate);
         builder.Property(x => x.DeliveryDate);
+        builder.Property(x => x.Name);
 
-        builder.HasOne(x => x.Courier)
-            .WithOne()
-            .HasForeignKey<Courier>(c => c.Customer!.PersonId);
+        builder.HasOne(x => x.Customer).WithMany(x => x.OrderHistory);
+        builder.HasOne(x => x.Courier).WithMany(x => x.DeliveryList);
     }
 }

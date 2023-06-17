@@ -1,5 +1,5 @@
 ﻿using Domain.Core.Contracts;
-using Domain.Core.Implementations;
+using Infrastructure.DataAccess.ValueConverters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -10,11 +10,9 @@ public class PersonConfiguration : IEntityTypeConfiguration<Person>
     public void Configure(EntityTypeBuilder<Person> builder)
     {
         builder.HasKey(p => p.PersonId);
-        builder.HasOne(p => p.FullName);
-        builder.Property(p => p.ContactInfo);
+        builder.Property(p => p.FullName).HasConversion<FullnameValueConverter>();
+        builder.Property(p => p.ContactInfo).HasConversion<ContactInfoValueConverter>();
 
-        builder.HasDiscriminator<string>("Discriminator")
-            .HasValue<Customer>("Customer")
-            .HasValue<Courier>("Courier");
+        builder.UseTpcMappingStrategy();
     }
 }

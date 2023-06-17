@@ -8,8 +8,6 @@ public class CourierConfiguration : IEntityTypeConfiguration<Courier>
 {
     public void Configure(EntityTypeBuilder<Courier> builder)
     {
-        builder.HasOne(c => c.Customer)
-            .WithOne()
-            .HasForeignKey<Customer>(c => c.PersonId);
+        builder.Navigation(x => x.DeliveryList).HasField("_orders");
     }
 }
