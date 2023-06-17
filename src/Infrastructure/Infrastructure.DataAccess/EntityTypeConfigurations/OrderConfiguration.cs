@@ -13,7 +13,12 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.Property(x => x.DeliveryDate);
         builder.Property(x => x.Name);
 
-        builder.HasOne(x => x.Customer).WithMany(x => x.OrderHistory);
-        builder.HasOne(x => x.Courier).WithMany(x => x.DeliveryList);
+        builder.HasOne(x => x.Customer)
+            .WithMany(x => x.OrderHistory)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        builder.HasOne(x => x.Courier)
+            .WithMany(x => x.DeliveryList)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }
