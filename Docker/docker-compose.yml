@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  postgres:
+    volumes:
+        - "./init.sql:/docker-entrypoint-initdb.d/init.sql"
+    environment:
+        POSTGRES_DB: "postgres"
+        POSTGRES_USER: "postgres"
+        POSTGRES_PASSWORD: "postgres"
+    container_name: ots-database
+    image: postgres:latest
+    ports:
+      - "1433:5432"
