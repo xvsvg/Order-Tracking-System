@@ -19,7 +19,7 @@ public class Customer : Person
         _orderHistory = new List<Order>();
     }
 
-    public IEnumerable<Order> OrderHistory => _orderHistory;
+    public virtual IEnumerable<Order> OrderHistory => _orderHistory;
 
     public Order AddOrderToHistory(Order order)
     {
