@@ -10,6 +10,7 @@ public class Courier : Person
 
     protected Courier()
     {
+        _orders = new List<Order>();
     }
 
     public Courier(FullName fullName, params ContactInfo[] contactInfo)

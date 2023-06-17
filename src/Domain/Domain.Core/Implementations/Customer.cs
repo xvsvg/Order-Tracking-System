@@ -10,6 +10,7 @@ public class Customer : Person
 
     protected Customer()
     {
+        _orderHistory = new List<Order>();
     }
 
     public Customer(

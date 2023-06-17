@@ -9,6 +9,7 @@ public abstract class Person
 
     protected Person()
     {
+        _contactInfo = new List<ContactInfo>();
     }
 
     protected Person(FullName fullName, params ContactInfo[] contactInfo)
