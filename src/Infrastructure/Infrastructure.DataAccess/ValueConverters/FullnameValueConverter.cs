@@ -6,8 +6,14 @@ namespace Infrastructure.DataAccess.ValueConverters;
 public class FullnameValueConverter : ValueConverter<FullName, string>
 {
     public FullnameValueConverter()
-        : base(x => $"{x.FirstName} {x.MiddleName} {x.LastName}",
-            x => new FullName(string.Empty, string.Empty, string.Empty))
+        : base(x => x.ToString(), x => ConvertFromString(x))
     {
+    }
+
+    private static FullName ConvertFromString(string name)
+    {
+        var fullName = name.Split(' ');
+
+        return new FullName(fullName[0], fullName[1], fullName[2]);
     }
 }
