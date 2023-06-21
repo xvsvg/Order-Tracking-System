@@ -20,15 +20,15 @@ public static class SeedingHelper
             .RuleFor(c => c.FullName, f => new FullName(f.Name.FirstName(), f.Name.LastName(), f.Name.FullName()))
             .RuleFor(c => c.OrderHistory, f => new List<Order>())
             .RuleFor(c => c.ContactInfo, f => new List<ContactInfo>{ new ContactInfo(f.Phone.PhoneNumber()) });
-        
-        
+
+
         _orderFaker = new AutoFaker<Order>()
+            .RuleFor(o => o.Name, f => f.Random.Chars(count: 10).ToString())
             .RuleFor(o => o.OrderId, f => Guid.NewGuid())
             .RuleFor(o => o.Courier, f => null)
-            .RuleFor(o => o.Name, f => f.Random.Chars(count: 10).ToString())
             .RuleFor(o => o.DeliveryDate, f => f.Date.Recent(0).ToUniversalTime())
             .RuleFor(o => o.DispatchDate, f => f.Date.Recent(0).ToUniversalTime())
-            .RuleFor(o => o.Customer, (f,o) =>
+            .RuleFor(o => o.Customer, (f, o) =>
             {
                 var customer = _customerFaker.Generate(1).Single();
                 customer.AddOrderToHistory(o);
@@ -53,11 +53,22 @@ public static class SeedingHelper
     {
         if (context is DatabaseContext ctx)
             await ctx.Database.EnsureCreatedAsync();
-
+        
         await context.Couriers.AddRangeAsync(_courierFaker!.Generate(100));
-        await context.Orders.AddRangeAsync(_orderFaker!.Generate(100));
+        await context.Orders.AddRangeAsync(ChangeToUtc(_orderFaker!.Generate(100)));
         await context.Customers.AddRangeAsync(_customerFaker!.Generate(100));
 
         await context.SaveChangesAsync(default);
+    }
+
+    private static IEnumerable<Order> ChangeToUtc(IEnumerable<Order> orders)
+    {
+        return orders.Select(x => new Order(
+            dispatchDate: DateTime.UtcNow,
+            deliveryDate: x.DeliveryDate,
+            courier: x.Courier,
+            customer: x.Customer,
+            name: x.Name
+        ));
     }
 }
