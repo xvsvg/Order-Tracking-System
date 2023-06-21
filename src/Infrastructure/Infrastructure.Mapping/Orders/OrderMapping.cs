@@ -10,9 +10,9 @@ public static class OrderMapping
     {
         return new OrderDto(
             order.OrderId,
-            order.Customer.ToDto(),
+            order.Customer.PersonId,
             order.DispatchDate,
             order.DeliveryDate,
-            order.Courier?.ToDto());
+            order.Courier?.PersonId);
     }
 }
