@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Handlers", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Handlers", "tests\ApplicationMicroservice\Test.Handlers\Test.Handlers.csproj", "{829BE018-52C1-4556-A00D-BF6A87A7D447}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Endpoints", "tests\ApplicationMicroservice\Test.Endpoints\Test.Endpoints.csproj", "{8272F52B-278B-47EA-8229-F64D07044381}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,6 +109,10 @@ Global
 		{829BE018-52C1-4556-A00D-BF6A87A7D447}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{829BE018-52C1-4556-A00D-BF6A87A7D447}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{829BE018-52C1-4556-A00D-BF6A87A7D447}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8272F52B-278B-47EA-8229-F64D07044381}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8272F52B-278B-47EA-8229-F64D07044381}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8272F52B-278B-47EA-8229-F64D07044381}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8272F52B-278B-47EA-8229-F64D07044381}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -130,5 +136,6 @@ Global
 		{DC342479-0B83-4014-A582-FB5F7A5DB99F} = {59AD4ED7-C4E9-4E9D-A7BF-A8906485C828}
 		{F3885098-7673-44FB-9345-8C0BC722A02F} = {59AD4ED7-C4E9-4E9D-A7BF-A8906485C828}
 		{829BE018-52C1-4556-A00D-BF6A87A7D447} = {26C6F8BD-899A-4A67-BC7C-4E8E60C52E13}
+		{8272F52B-278B-47EA-8229-F64D07044381} = {26C6F8BD-899A-4A67-BC7C-4E8E60C52E13}
 	EndGlobalSection
 EndGlobal
