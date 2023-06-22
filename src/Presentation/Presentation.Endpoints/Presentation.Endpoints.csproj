@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <ItemGroup>
+        <Folder Include="Customer\"/>
+        <Folder Include="Extensions\"/>
+        <Folder Include="Courier\"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FastEndpoints"/>
+        <PackageReference Include="LanguageExt.Core"/>
+        <PackageReference Include="MediatR"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Application\Application.Contracts\Application.Contracts.csproj"/>
+        <ProjectReference Include="..\..\Application\Application.DataAccess.Contracts\Application.DataAccess.Contracts.csproj"/>
+    </ItemGroup>
+
+</Project>
