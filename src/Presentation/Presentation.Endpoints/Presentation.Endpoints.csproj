@@ -16,4 +16,8 @@
         <ProjectReference Include="..\..\Application\Application.DataAccess.Contracts\Application.DataAccess.Contracts.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <InternalsVisibleTo Include="Test.Endpoints"/>
+    </ItemGroup>
+
 </Project>
