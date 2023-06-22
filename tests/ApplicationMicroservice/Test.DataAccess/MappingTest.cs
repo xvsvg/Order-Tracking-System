@@ -37,6 +37,6 @@ public class MappingTest : IAsyncLifetime, IClassFixture<CoreDatabaseFixture>
 
     public Task DisposeAsync()
     {
-        return _database.DisposeAsync();
+        return _database.ResetAsync();
     }
 }
