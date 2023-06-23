@@ -1,18 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
-        <Folder Include="Courier\"/>
-        <Folder Include="Customer\"/>
+        <Folder Include="Couriers\" />
+        <Folder Include="Customers\" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="MediatR"/>
+        <PackageReference Include="MediatR" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\Infrastructure\Infrastructure.Mapping\Infrastructure.Mapping.csproj"/>
-        <ProjectReference Include="..\Application.Common\Application.Common.csproj"/>
-        <ProjectReference Include="..\Application.Contracts\Application.Contracts.csproj"/>
-        <ProjectReference Include="..\Application.DataAccess.Contracts\Application.DataAccess.Contracts.csproj"/>
+        <ProjectReference Include="..\..\Infrastructure\Infrastructure.Mapping\Infrastructure.Mapping.csproj" />
+        <ProjectReference Include="..\Application.Common\Application.Common.csproj" />
+        <ProjectReference Include="..\Application.Contracts\Application.Contracts.csproj" />
+        <ProjectReference Include="..\Application.DataAccess.Contracts\Application.DataAccess.Contracts.csproj" />
+        <ProjectReference Include="..\Application.Validation\Application.Validation.csproj" />
     </ItemGroup>
     <ItemGroup>
-        <InternalsVisibleTo Include="Test.Handlers"/>
+        <InternalsVisibleTo Include="Test.Handlers" />
     </ItemGroup>
 </Project>
