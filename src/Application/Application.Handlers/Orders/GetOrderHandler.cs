@@ -9,7 +9,7 @@ using static Application.Contracts.Order.Queries.GetOrder;
 
 namespace Application.Handlers.Orders;
 
-internal class GetOrderHandler : IRequestHandler<Query, Result<Response>>
+internal class GetOrderHandler : IRequestHandler<Query, Response>
 {
     private readonly IDatabaseContext _context;
 
@@ -18,18 +18,12 @@ internal class GetOrderHandler : IRequestHandler<Query, Result<Response>>
         _context = context;
     }
 
-    public async Task<Result<Response>> Handle(Query request, CancellationToken cancellationToken)
+    public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
     {
         var order = await _context.Orders
             .FirstOrDefaultAsync(x => x.OrderId.Equals(request.Id), cancellationToken);
 
-        if (order is null)
-        {
-            var error = EntityNotFoundException.For<Order>(request.Id);
-            return new Result<Response>(error);
-        }
-
-        var response = new Response(order.ToDto());
+        var response = new Response(order?.ToDto());
         return response;
     }
 }

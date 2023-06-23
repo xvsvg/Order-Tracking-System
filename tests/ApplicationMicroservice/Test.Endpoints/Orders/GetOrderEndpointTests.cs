@@ -63,7 +63,7 @@ public class GetOrderEndpointTests : IAsyncLifetime, IClassFixture<CoreDatabaseF
         var response = endpoint.Response;
 
         response.Order.Should().NotBeNull();
-        response.Order.Id.Should().Be(order.OrderId);
+        response.Order!.Id.Should().Be(order.OrderId);
     }
 
     public Task InitializeAsync()

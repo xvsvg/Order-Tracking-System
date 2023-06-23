@@ -26,7 +26,7 @@ public class GetOrderTests : IAsyncLifetime, IClassFixture<CoreDatabaseFixture>
 
         var response = await handler.Handle(query, CancellationToken.None);
 
-        response.IsSuccess.Should().BeFalse();
+        response.Order.Should().BeNull();
     }
 
     [Fact]
@@ -40,7 +40,7 @@ public class GetOrderTests : IAsyncLifetime, IClassFixture<CoreDatabaseFixture>
 
         var response = await handler.Handle(query, CancellationToken.None);
 
-        response.IsSuccess.Should().BeTrue();
+        response.Order.Should().NotBeNull();
     }
 
     public Task InitializeAsync()
