@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+    <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Application\Application.Handlers\Application.Handlers.csproj" />
+        <ProjectReference Include="..\..\Infrastructure\Infrastructure.DataAccess\Infrastructure.DataAccess.csproj" />
+        <ProjectReference Include="..\..\Presentation\Presentation.Endpoints\Presentation.Endpoints.csproj" />
+    </ItemGroup>
+
+</Project>
