@@ -1,4 +1,5 @@
 ﻿using Application.DataAccess.Contracts;
+using Infrastructure.DataAccess.DatabaseContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,14 +11,14 @@ public static class RegistrationExtensions
         this IServiceCollection collection,
         Action<DbContextOptionsBuilder> configuration)
     {
-        collection.AddDbContext<IDatabaseContext, DatabaseContext.DatabaseContext>(configuration);
+        collection.AddDbContext<IDatabaseContext, DatabaseContext>(configuration);
 
         return collection;
     }
 
     public static Task UseDatabaseContext(this IServiceScope scope)
     {
-        var context = scope.ServiceProvider.GetRequiredService<DatabaseContext.DatabaseContext>();
+        var context = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
         return context.Database.MigrateAsync();
     }
 }

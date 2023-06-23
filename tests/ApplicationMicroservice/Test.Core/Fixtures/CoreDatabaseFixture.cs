@@ -1,5 +1,5 @@
 using System.Data.Common;
-using Infrastructure.DataAccess.DatabaseContext;
+using Infrastructure.DataAccess.DatabaseContexts;
 using Infrastructure.DataAccess.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

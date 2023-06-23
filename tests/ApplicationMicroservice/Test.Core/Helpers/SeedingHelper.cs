@@ -3,7 +3,7 @@ using AutoBogus;
 using Bogus;
 using Domain.Core.Implementations;
 using Domain.Core.ValueObjects;
-using Infrastructure.DataAccess.DatabaseContext;
+using Infrastructure.DataAccess.DatabaseContexts;
 
 namespace Test.Core.Helpers;
 

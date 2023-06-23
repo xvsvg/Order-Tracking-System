@@ -3,7 +3,7 @@ using Domain.Core.Contracts;
 using Domain.Core.Implementations;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.DataAccess.DatabaseContext;
+namespace Infrastructure.DataAccess.DatabaseContexts;
 
 public sealed class DatabaseContext : DbContext, IDatabaseContext
 {

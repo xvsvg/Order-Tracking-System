@@ -1,4 +1,4 @@
-﻿using Application.Handlers.Order;
+﻿using Application.Handlers.Orders;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Test.Core.Fixtures;
