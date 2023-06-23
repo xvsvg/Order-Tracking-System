@@ -7,5 +7,5 @@ namespace Application.Contracts.Customer.Queries;
 internal static class GetCustomer
 {
     public record Query(Guid Id) : IRequest<Result<Response>>;
-    public record Response(CustomerDto Customer);
+    public record Response(CustomerDto? Customer);
 }
