@@ -6,7 +6,7 @@
     <ItemGroup>
         <InternalsVisibleTo Include="Presentation.Endpoints" />
         <InternalsVisibleTo Include="Application.Handlers" />
-        <InternalsVisibleTo Include="Test.Handlers" />
+        <InternalsVisibleTo Include="Test.Core" />
         <InternalsVisibleTo Include="Test.Endpoints" />
         <InternalsVisibleTo Include="Application.Validation" />
     </ItemGroup>
