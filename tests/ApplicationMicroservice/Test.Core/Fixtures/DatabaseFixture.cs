@@ -2,7 +2,7 @@ using System.Data;
 using System.Data.Common;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
-using Test.Core.Extensions;
+using Test.Tools.Extensions;
 using Testcontainers.PostgreSql;
 using Xunit;
 
@@ -51,7 +51,7 @@ public abstract class DatabaseFixture : IAsyncLifetime
         Connection = CreateConnection();
 
         var opened = await Connection.TryOpenAsync(default);
-        
+
         if (opened)
         {
             await Connection.CloseAsync();
