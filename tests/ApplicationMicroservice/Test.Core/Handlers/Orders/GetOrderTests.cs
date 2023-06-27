@@ -2,14 +2,14 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Test.Core.Fixtures;
-using Test.Core.Helpers;
+using Test.Tools.Helpers;
 using Xunit;
 using static Application.Contracts.Order.Queries.GetOrder;
 
-namespace Test.Handlers.Orders;
+namespace Test.Core.Handlers.Orders;
 
 [Collection(nameof(CoreDatabaseCollectionFixture))]
-public class GetOrderTests : IAsyncLifetime, IClassFixture<CoreDatabaseFixture>
+public class GetOrderTests : IAsyncLifetime
 {
     private readonly CoreDatabaseFixture _database;
 
@@ -17,7 +17,7 @@ public class GetOrderTests : IAsyncLifetime, IClassFixture<CoreDatabaseFixture>
     {
         _database = database;
     }
-    
+
     [Fact]
     public async Task Handle_Should_NotFind()
     {

@@ -6,11 +6,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoBogus" />
+        <PackageReference Include="FluentAssertions" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" />
-        <PackageReference Include="Npgsql" />
         <PackageReference Include="Testcontainers.PostgreSql" />
         <PackageReference Include="xunit" />
         <PackageReference Include="xunit.runner.visualstudio">
@@ -24,7 +22,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\src\Infrastructure\Infrastructure.DataAccess\Infrastructure.DataAccess.csproj" />
+      <ProjectReference Include="..\..\..\src\Application\Application.Contracts\Application.Contracts.csproj" />
+      <ProjectReference Include="..\..\..\src\Application\Application.Handlers\Application.Handlers.csproj" />
+      <ProjectReference Include="..\..\..\src\Infrastructure\Infrastructure.Mapping\Infrastructure.Mapping.csproj" />
+      <ProjectReference Include="..\Test.Tools\Test.Tools.csproj" />
     </ItemGroup>
 
 </Project>

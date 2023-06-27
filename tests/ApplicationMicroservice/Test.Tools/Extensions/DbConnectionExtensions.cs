@@ -1,7 +1,7 @@
 using System.Data;
 using System.Data.Common;
 
-namespace Test.Core.Extensions;
+namespace Test.Tools.Extensions;
 
 public static class DbConnectionExtensions
 {

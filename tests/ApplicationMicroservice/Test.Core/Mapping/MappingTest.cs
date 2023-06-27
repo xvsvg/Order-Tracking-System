@@ -2,13 +2,13 @@ using Infrastructure.Mapping.Orders;
 using Infrastructure.Mapping.People;
 using Microsoft.EntityFrameworkCore;
 using Test.Core.Fixtures;
-using Test.Core.Helpers;
+using Test.Tools.Helpers;
 using Xunit;
 
-namespace Test.DataAccess;
+namespace Test.Core.Mapping;
 
 [Collection(nameof(CoreDatabaseCollectionFixture))]
-public class MappingTest : IAsyncLifetime, IClassFixture<CoreDatabaseFixture>
+public class MappingTest : IAsyncLifetime
 {
     private readonly CoreDatabaseFixture _database;
     
