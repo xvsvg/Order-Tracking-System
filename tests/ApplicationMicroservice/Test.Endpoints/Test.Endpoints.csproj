@@ -3,13 +3,15 @@
     <PropertyGroup>
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
+        <PreserveCompilationContext>true</PreserveCompilationContext>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FakeItEasy" />
-        <PackageReference Include="FastEndpoints" />
+        <PackageReference Include="FluentAssertions" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" />
-        <PackageReference Include="Moq" />
+        <PackageReference Include="Testcontainers.PostgreSql" />
         <PackageReference Include="xunit" />
         <PackageReference Include="xunit.runner.visualstudio">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -22,15 +24,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\src\Infrastructure\Infrastructure.Mapping\Infrastructure.Mapping.csproj" />
-      <ProjectReference Include="..\..\..\src\Presentation\Presentation.Endpoints\Presentation.Endpoints.csproj" />
-      <ProjectReference Include="..\Test.Core\Test.Core.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Reference Include="FluentAssertions">
-        <HintPath>C:\Users\!nsane-\.nuget\packages\fluentassertions\6.11.0\lib\net6.0\FluentAssertions.dll</HintPath>
-      </Reference>
+        <ProjectReference Include="..\..\..\src\Application\Application.Contracts\Application.Contracts.csproj" />
+        <ProjectReference Include="..\..\..\src\Infrastructure\Infrastructure.DataAccess\Infrastructure.DataAccess.csproj" />
+        <ProjectReference Include="..\..\..\src\Playground\Playground.Web\Playground.Web.csproj" />
+        <ProjectReference Include="..\..\..\src\Presentation\Presentation.Endpoints\Presentation.Endpoints.csproj" />
+        <ProjectReference Include="..\Test.Tools\Test.Tools.csproj" />
     </ItemGroup>
 
 </Project>

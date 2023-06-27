@@ -1,69 +1,55 @@
-﻿using FakeItEasy;
+﻿using System.Net;
 using FastEndpoints;
 using FluentAssertions;
-using Infrastructure.Mapping.Orders;
-using MediatR;
+using Infrastructure.DataAccess.DatabaseContexts;
 using Microsoft.EntityFrameworkCore;
-using Moq;
+using Test.Endpoints.Fixtures;
 using Xunit;
-using Presentation.Endpoints.Order;
-using Test.Core.Fixtures;
-using Test.Core.Helpers;
 using static Application.Contracts.Order.Queries.GetOrder;
 
 namespace Test.Endpoints.Orders;
 
-[Collection(nameof(CoreDatabaseCollectionFixture))]
-public class GetOrderEndpointTests : IAsyncLifetime, IClassFixture<CoreDatabaseFixture>
+[Collection(nameof(WebFactoryCollection))]
+public class GetOrderEndpointTests : IAsyncLifetime
 {
-    private readonly CoreDatabaseFixture _database;
+    private readonly WebFactory _factory;
+    private readonly HttpClient _client;
+    private DatabaseContext _database;
 
-    public GetOrderEndpointTests(CoreDatabaseFixture database)
+    public GetOrderEndpointTests(WebFactory factory)
     {
-        _database = database;
+        _factory = factory;
+        _client = factory.CreateClient();
+        _database = factory.Context;
     }
 
     [Fact]
     public async Task GetOrderById_Should_NotFind()
     {
-        var id = Guid.NewGuid();
-        var endpoint = Factory.Create<GetOrderEndpoint>(ctx =>
-            {
-                ctx.Request.RouteValues.Add("id", id.ToString());
-                ctx.Request.QueryString.Add("id", id.ToString());
-            },
-            A.Fake<IMediator>());
+        var query = new Query(Guid.NewGuid());
 
-        await endpoint.HandleAsync(new Query(id), default);
-        var response = endpoint.Response;
+        var (response, result) = await _client
+            .GETAsync<Query, Response>($"api/orders/{query.Id}",query);
 
-        response.Order.Should().BeNull();
+        response.Should().NotBeNull();
+        response!.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        result.Should().BeNull();
     }
 
     [Fact]
     public async Task GetOrderById_Should_Find()
     {
-        await SeedingHelper.SeedDatabaseAsync(_database.Context);
+        var order = await _factory.Context.Orders.FirstAsync();
+        var query = new Query(order.OrderId);
+        
+        var (response, result) = await _client
+            .GETAsync<Query, Response>($"api/orders/{query.Id}",query);
 
-        var order = await _database.Context.Orders.FirstAsync();
-        var mediator = new Mock<IMediator>();
-
-        mediator
-            .Setup(x => x.Send(It.IsAny<Query>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new Response(order.ToDto()));
-
-        var endpoint = Factory.Create<GetOrderEndpoint>(ctx =>
-            {
-                ctx.Request.RouteValues.Add("id", order.OrderId.ToString());
-                ctx.Request.QueryString.Add("id", order.OrderId.ToString());
-            },
-            mediator.Object);
-
-        await endpoint.HandleAsync(new Query(order.OrderId), default);
-        var response = endpoint.Response;
-
-        response.Order.Should().NotBeNull();
-        response.Order!.Id.Should().Be(order.OrderId);
+        response.Should().NotBeNull();
+        response!.StatusCode.Should().Be(HttpStatusCode.OK);
+        result.Should().NotBeNull();
+        result!.Order.Should().NotBeNull();
+        result!.Order!.Id.Should().Be(order.OrderId);
     }
 
     public Task InitializeAsync()
@@ -73,6 +59,6 @@ public class GetOrderEndpointTests : IAsyncLifetime, IClassFixture<CoreDatabaseF
 
     public Task DisposeAsync()
     {
-        return _database.ResetAsync();
+        return _factory.ResetAsync();
     }
 }
