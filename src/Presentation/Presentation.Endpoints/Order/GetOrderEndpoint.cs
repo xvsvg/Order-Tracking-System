@@ -30,7 +30,7 @@ internal class GetOrderEndpoint : Endpoint<Query, Response>
 
         if (response.Order is null)
             await SendNotFoundAsync(ct);
-
-        await SendOkAsync(response, ct);
+        else
+            await SendOkAsync(response, ct);
     }
 }
