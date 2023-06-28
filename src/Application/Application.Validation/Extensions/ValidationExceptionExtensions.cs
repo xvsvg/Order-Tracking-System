@@ -5,7 +5,7 @@ namespace Application.Validation.Extensions;
 
 public static class ValidationExceptionExtensions
 {
-    public static ValidationProblemDetails ToProblemDetailes(this ValidationException ex)
+    public static ValidationProblemDetails ToProblemDetails(this ValidationException ex)
     {
         var error = new ValidationProblemDetails
         {

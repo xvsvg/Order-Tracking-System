@@ -14,7 +14,7 @@ public class ValidationMappingMiddleware : IMiddleware
         catch (ValidationException ex)
         {
             context.Response.StatusCode = 400;
-            var error = ex.ToProblemDetailes();
+            var error = ex.ToProblemDetails();
             await context.Response.WriteAsJsonAsync(error);
         }
     }
