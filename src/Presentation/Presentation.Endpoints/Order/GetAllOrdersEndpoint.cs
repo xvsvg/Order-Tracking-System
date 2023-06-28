@@ -1,4 +1,5 @@
-﻿using FastEndpoints;
+﻿using System.Net;
+using FastEndpoints;
 using FluentValidation;
 using MediatR;
 using Presentation.Endpoints.Tools;
@@ -30,7 +31,7 @@ internal class GetAllOrdersEndpoint : Endpoint<Query, Response>
         var response = await _mediator.Send(req, ct);
 
         await response.Match(
-            o => SendOkAsync(o, cancellation: ct),
+            o => SendAsync(o, statusCode: (int)HttpStatusCode.PartialContent, cancellation: ct),
             err =>
             {
                 if (err is ValidationException ex)
