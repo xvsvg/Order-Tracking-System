@@ -30,22 +30,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{164FCEE3-67CC-41C9-97DB-3E381CB39326}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApplicationMicroservice", "ApplicationMicroservice", "{26C6F8BD-899A-4A67-BC7C-4E8E60C52E13}"
-	ProjectSection(SolutionItems) = preProject
-		Extensions\DbConnectionExtensions.cs = Extensions\DbConnectionExtensions.cs
-		Generators\EntityGenerator.cs = Generators\EntityGenerator.cs
-		Generators\FakerGenerator.cs = Generators\FakerGenerator.cs
-		Helpers\SeedingHelper.cs = Helpers\SeedingHelper.cs
-		Fixtures\DatabaseFixture.cs = Fixtures\DatabaseFixture.cs
-		Fixtures\CoreDatabaseFixture.cs = Fixtures\CoreDatabaseFixture.cs
-		Fixtures\CoreDatabaseCollectionFixture.cs = Fixtures\CoreDatabaseCollectionFixture.cs
-		Handlers\Orders = Handlers\Orders
-		Handlers\Orders\GetOrderTests.cs = Handlers\Orders\GetOrderTests.cs
-		Handlers\Orders\GetAllOrdersTests.cs = Handlers\Orders\GetAllOrdersTests.cs
-		Mapping\MappingTest.cs = Mapping\MappingTest.cs
-		Fixtures\WebFactory.cs = Fixtures\WebFactory.cs
-		Fixtures\WebFactoryCollection.cs = Fixtures\WebFactoryCollection.cs
-		Orders\GetOrderEndpointTests.cs = Orders\GetOrderEndpointTests.cs
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{F6512897-A15D-4CB7-BBD3-FEA5281A02A8}"
 EndProject
