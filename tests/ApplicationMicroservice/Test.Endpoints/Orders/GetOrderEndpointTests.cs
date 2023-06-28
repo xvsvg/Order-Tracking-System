@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using FastEndpoints;
 using FluentAssertions;
-using Infrastructure.DataAccess.DatabaseContexts;
 using Microsoft.EntityFrameworkCore;
 using Test.Endpoints.Fixtures;
 using Xunit;
@@ -14,13 +13,11 @@ public class GetOrderEndpointTests : IAsyncLifetime
 {
     private readonly WebFactory _factory;
     private readonly HttpClient _client;
-    private DatabaseContext _database;
 
     public GetOrderEndpointTests(WebFactory factory)
     {
         _factory = factory;
         _client = factory.CreateClient();
-        _database = factory.Context;
     }
 
     [Fact]

@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using FastEndpoints;
 using FluentAssertions;
-using Infrastructure.DataAccess.DatabaseContexts;
 using Test.Endpoints.Fixtures;
 using Xunit;
 using static Application.Contracts.Order.Queries.GetAllOrders;
@@ -13,13 +12,11 @@ public class GetAllOrdersEndpoint : IAsyncLifetime
 {
     private readonly WebFactory _factory;
     private readonly HttpClient _client;
-    private DatabaseContext _database;
 
     public GetAllOrdersEndpoint(WebFactory factory)
     {
         _factory = factory;
         _client = factory.CreateClient();
-        _database = factory.Context;
     }
 
     [Fact]
