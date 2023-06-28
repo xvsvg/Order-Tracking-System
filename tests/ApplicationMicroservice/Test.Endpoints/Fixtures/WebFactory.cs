@@ -1,4 +1,6 @@
-﻿using FastEndpoints;
+﻿using Application.Validation.Extensions;
+using Application.Validation.Middleware;
+using FastEndpoints;
 using Infrastructure.DataAccess.DatabaseContexts;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
@@ -45,6 +47,7 @@ public class WebFactory : WebApplicationFactory<Program>, IAsyncLifetime
 
             s.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Application.Handlers.IAssemblyMarker>());
             s.AddFastEndpoints();
+            s.AddValidation();
         });
     }
 

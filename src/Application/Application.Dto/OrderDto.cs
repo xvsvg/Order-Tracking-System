@@ -1,3 +1,3 @@
 ﻿namespace Application.Dto;
 
-public record OrderDto(Guid Id, Guid CustomerId, DateTime DispatchDate, DateTime? DeliveryDate, Guid? CourierId);
+public record OrderDto(Guid Id, string Name, Guid CustomerId, Guid? CourierId, DateTime DispatchDate, DateTime? DeliveryDate);
