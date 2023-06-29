@@ -16,7 +16,7 @@ public class FakerGenerator
         CustomerFaker = new AutoFaker<Customer>()
             .RuleFor(c => c.PersonId, f => Guid.NewGuid())
             .RuleFor(c => c.FullName, f => new FullName(f.Name.FirstName(), f.Name.LastName(), f.Name.FullName()))
-            .RuleFor(c => c.OrderHistory, f => new List<Order>())
+            .RuleFor(c => c.OrderHistory, f => Array.Empty<Order>().ToList())
             .RuleFor(c => c.ContactInfo, f => new List<ContactInfo> { new ContactInfo(f.Phone.PhoneNumber()) });
 
 
@@ -25,26 +25,13 @@ public class FakerGenerator
             .RuleFor(o => o.OrderId, f => Guid.NewGuid())
             .RuleFor(o => o.Courier, f => null)
             .RuleFor(o => o.DeliveryDate, f => f.Date.Recent(0).ToUniversalTime())
-            .RuleFor(o => o.DispatchDate, f => f.Date.Recent(0).ToUniversalTime())
-            .RuleFor(o => o.Customer, (f, o) =>
-            {
-                var customer = CustomerFaker.Generate(1).Single();
-                customer.AddOrderToHistory(o);
-                return customer;
-            });
+            .RuleFor(o => o.DispatchDate, f => f.Date.Recent(0).ToUniversalTime());
 
         CourierFaker = new AutoFaker<Courier>()
             .RuleFor(c => c.PersonId, f => Guid.NewGuid())
             .RuleFor(c => c.FullName, f => new FullName(f.Name.FirstName(), f.Name.LastName(), f.Name.FullName()))
             .RuleFor(c => c.ContactInfo, f => new List<ContactInfo> { new ContactInfo(f.Phone.PhoneNumber()) })
-            .RuleFor(c => c.DeliveryList, (f, c) =>
-            {
-                var orders = OrderFaker.Generate(5);
-
-                orders.Select(c.AddOrderToDeliver);
-
-                return orders;
-            });
+            .RuleFor(c => c.DeliveryList, f => Array.Empty<Order>().ToList());
     }
 
     public static Faker<T> GeneratorOfType<T>() where T : class

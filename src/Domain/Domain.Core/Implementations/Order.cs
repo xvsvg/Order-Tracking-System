@@ -22,6 +22,9 @@ public class Order
         Customer = customer;
         Name = name;
 
+        courier?.AddOrderToDeliver(this);
+        customer.AddOrderToHistory(this);
+
         OrderId = Guid.NewGuid();
     }
 

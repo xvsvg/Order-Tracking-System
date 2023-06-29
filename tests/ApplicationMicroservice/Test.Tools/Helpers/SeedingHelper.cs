@@ -13,20 +13,41 @@ public static class SeedingHelper
             await ctx.Database.EnsureCreatedAsync();
 
         await context.Couriers.AddRangeAsync(EntityGenerator<Courier>.Generate(100));
-        await context.Orders.AddRangeAsync(ChangeToUtc(EntityGenerator<Order>.Generate(100)));
+        await context.Orders.AddRangeAsync(ModifyCustomerOrdersToUtc(EntityGenerator<Order>.Generate(100)));
         await context.Customers.AddRangeAsync(EntityGenerator<Customer>.Generate(100));
 
         await context.SaveChangesAsync(default);
     }
 
-    private static IEnumerable<Order> ChangeToUtc(IEnumerable<Order> orders)
+    private static IEnumerable<Order> ModifyCustomerOrdersToUtc(IEnumerable<Order> orders)
     {
-        return orders.Select(x => new Order(
-            dispatchDate: DateTime.UtcNow,
-            deliveryDate: x.DeliveryDate,
-            courier: x.Courier,
-            customer: x.Customer,
-            name: x.Name
-        ));
+        var result = new List<Order>();
+        
+        foreach (var order in orders)
+        {
+            var modifiedOrders = order.Customer.OrderHistory.Select(o => new Order(
+                o.DispatchDate.ToUniversalTime(),
+                o.DeliveryDate?.ToUniversalTime() ?? o.DeliveryDate,
+                o.Courier,
+                o.Customer,
+                o.Name)).ToList();
+
+            var customer = new Customer(
+                order.Customer.FullName,
+                order.Customer.ContactInfo.ToArray());
+            
+            modifiedOrders.ForEach(o => o.Customer.AddOrderToHistory(o));
+
+            var newOrder = new Order(
+                order.DispatchDate.ToUniversalTime(),
+                order.DeliveryDate?.ToUniversalTime() ?? order.DeliveryDate,
+                order.Courier,
+                customer,
+                order.Name);
+            
+            result.Add(newOrder);
+        }
+
+        return result;
     }
 }
