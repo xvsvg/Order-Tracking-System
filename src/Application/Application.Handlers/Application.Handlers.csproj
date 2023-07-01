@@ -1,9 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
-        <Folder Include="Couriers\" />
-        <Folder Include="Customers\" />
-    </ItemGroup>
-    <ItemGroup>
         <PackageReference Include="MediatR" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
     </ItemGroup>
