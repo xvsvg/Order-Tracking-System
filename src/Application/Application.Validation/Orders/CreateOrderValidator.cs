@@ -9,7 +9,7 @@ internal class CreateOrderValidator : AbstractValidator<Command>
     {
         RuleFor(x => x.Name)
             .NotEmpty().MinimumLength(3).Matches("^\\p{Lu}\\p{Ll}*$")
-            .WithMessage("Product name should start with upper case");
+            .WithMessage("Product name should start with upper case and at least 3 characters length");
 
         RuleFor(x => x.CourierId)
             .Must(x => !x.HasValue || !x.Value.Equals(Guid.Empty))
