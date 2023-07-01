@@ -8,12 +8,12 @@ using static Application.Contracts.Order.Queries.GetAllOrders;
 namespace Test.Endpoints.Orders;
 
 [Collection(nameof(WebFactoryCollection))]
-public class GetAllOrdersEndpoint : IAsyncLifetime
+public class GetAllOrdersEndpointTests : IAsyncLifetime
 {
     private readonly WebFactory _factory;
     private readonly HttpClient _client;
 
-    public GetAllOrdersEndpoint(WebFactory factory)
+    public GetAllOrdersEndpointTests(WebFactory factory)
     {
         _factory = factory;
         _client = factory.CreateClient();

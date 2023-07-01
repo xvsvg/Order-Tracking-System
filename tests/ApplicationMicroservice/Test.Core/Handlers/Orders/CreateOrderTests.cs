@@ -9,12 +9,12 @@ using static Application.Contracts.Order.Commands.CreateOrder;
 namespace Test.Core.Handlers.Orders;
 
 [Collection(nameof(CoreDatabaseCollectionFixture))]
-public class CreateOrderTest : IAsyncLifetime
+public class CreateOrderTests : IAsyncLifetime
 {
     private readonly CoreDatabaseFixture _database;
     private readonly CreateOrderHandler _handler;
 
-    public CreateOrderTest(CoreDatabaseFixture database)
+    public CreateOrderTests(CoreDatabaseFixture database)
     {
         _database = database;
         _handler = new CreateOrderHandler(_database.Context);
