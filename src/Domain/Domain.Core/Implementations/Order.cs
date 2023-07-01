@@ -8,6 +8,7 @@ public class Order
     }
 
     public Order(
+        Guid Id,
         DateTime dispatchDate,
         DateTime? deliveryDate,
         Courier? courier,
@@ -21,11 +22,11 @@ public class Order
         Courier = courier;
         Customer = customer;
         Name = name;
+        OrderId = Id;
 
         courier?.AddOrderToDeliver(this);
         customer.AddOrderToHistory(this);
 
-        OrderId = Guid.NewGuid();
     }
 
     public Guid OrderId { get; }

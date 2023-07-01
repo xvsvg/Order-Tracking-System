@@ -1,5 +1,6 @@
 ﻿using Domain.Core.Contracts;
 using Domain.Core.ValueObjects;
+
 #pragma warning disable CS8618
 
 namespace Domain.Core.Implementations;
@@ -13,8 +14,11 @@ public class Courier : Person
         _orders = new List<Order>();
     }
 
-    public Courier(FullName fullName, params ContactInfo[] contactInfo)
-        : base(fullName, contactInfo)
+    public Courier(
+        Guid Id,
+        FullName fullName,
+        params ContactInfo[] contactInfo)
+        : base(Id, fullName, contactInfo)
     {
         _orders = new List<Order>();
     }

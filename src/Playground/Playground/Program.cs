@@ -15,9 +15,9 @@ async Task CreateDatabaseAsync()
     
     await context.Database.EnsureCreatedAsync();
     
-    var customer = new Customer(new FullName("asd", "sad", "asd"), new ContactInfo("email"));
-    var courier = new Courier(new FullName("bew", "new", "ewa"), new ContactInfo("phone"));
-    var order = new Order(DateTime.UtcNow, DateTime.UtcNow.AddDays(1), null, customer, "whatever");
+    var customer = new Customer(Guid.NewGuid(), new FullName("asd", "sad", "asd"), new ContactInfo("email"));
+    var courier = new Courier(Guid.NewGuid(), new FullName("bew", "new", "ewa"), new ContactInfo("phone"));
+    var order = new Order(Guid.NewGuid(), DateTime.UtcNow, DateTime.UtcNow.AddDays(1), null, customer, "whatever");
     
     customer.AddOrderToHistory(order);
     

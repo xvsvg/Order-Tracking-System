@@ -33,6 +33,7 @@ internal class CreateOrderHandler : IRequestHandler<Command, Result<Response>>
         }
 
         var order = new Order(
+            Guid.NewGuid(),
             request.DispatchDate,
             request.DeliveryDate,
             courier,

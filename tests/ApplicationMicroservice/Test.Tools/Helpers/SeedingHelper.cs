@@ -26,6 +26,7 @@ public static class SeedingHelper
         foreach (var order in orders)
         {
             var modifiedOrders = order.Customer.OrderHistory.Select(o => new Order(
+                Guid.NewGuid(),
                 o.DispatchDate.ToUniversalTime(),
                 o.DeliveryDate?.ToUniversalTime() ?? o.DeliveryDate,
                 o.Courier,
@@ -33,12 +34,14 @@ public static class SeedingHelper
                 o.Name)).ToList();
 
             var customer = new Customer(
+                Guid.NewGuid(),
                 order.Customer.FullName,
                 order.Customer.ContactInfo.ToArray());
             
             modifiedOrders.ForEach(o => o.Customer.AddOrderToHistory(o));
 
             var newOrder = new Order(
+                Guid.NewGuid(),
                 order.DispatchDate.ToUniversalTime(),
                 order.DeliveryDate?.ToUniversalTime() ?? order.DeliveryDate,
                 order.Courier,

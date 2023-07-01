@@ -12,15 +12,14 @@ public abstract class Person
         _contactInfo = new List<ContactInfo>();
     }
 
-    protected Person(FullName fullName, params ContactInfo[] contactInfo)
+    protected Person(Guid Id, FullName fullName, params ContactInfo[] contactInfo)
     {
         ArgumentNullException.ThrowIfNull(fullName);
         ArgumentNullException.ThrowIfNull(contactInfo);
 
         FullName = fullName;
         _contactInfo = new List<ContactInfo>(contactInfo);
-
-        PersonId = Guid.NewGuid();
+        PersonId = Id;
     }
 
     public Guid PersonId { get; }

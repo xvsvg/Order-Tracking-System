@@ -14,8 +14,9 @@ public class Customer : Person
     }
 
     public Customer(
+        Guid Id,
         FullName fullName,
-        params ContactInfo[] contactInfo) : base(fullName, contactInfo)
+        params ContactInfo[] contactInfo) : base(Id, fullName, contactInfo)
     {
         _orderHistory = new List<Order>();
     }
