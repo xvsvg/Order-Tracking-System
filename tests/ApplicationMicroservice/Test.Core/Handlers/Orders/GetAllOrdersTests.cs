@@ -29,13 +29,9 @@ public class GetAllOrdersTests : IAsyncLifetime
 
         var response = await handler.Handle(query, default);
 
-        var result = response.Match(
-            x => x.Page,
-            x => new OrderPageDto(Array.Empty<OrderDto>(), 0, 0));
-
-        result.Orders.Should().NotBeEmpty();
-        result.Page.Should().Be(1);
-        result.Orders.Count().Should().Be(10);
+        response.Page.Orders.Should().NotBeEmpty();
+        response.Page.Page.Should().Be(1);
+        response.Page.Orders.Count().Should().Be(10);
     }
 
     public Task InitializeAsync()

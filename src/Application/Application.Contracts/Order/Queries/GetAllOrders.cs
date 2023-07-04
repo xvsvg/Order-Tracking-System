@@ -6,6 +6,6 @@ namespace Application.Contracts.Order.Queries;
 
 internal static class GetAllOrders
 {
-    public record Query(int Page) : IValidatableRequest<Result<Response>>;
+    public record Query(int Page) : IValidatableRequest<Response>;
     public record Response(OrderPageDto Page);
 }

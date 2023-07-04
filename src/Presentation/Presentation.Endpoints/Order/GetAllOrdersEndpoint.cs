@@ -30,14 +30,8 @@ internal class GetAllOrdersEndpoint : Endpoint<Query, Response>
     {
         var response = await _mediator.Send(req, ct);
 
-        await response.Match(
-            o => SendAsync(o, statusCode: (int)HttpStatusCode.PartialContent, cancellation: ct),
-            err =>
-            {
-                if (err is ValidationException ex)
-                    return SendErrorsAsync(cancellation: ct);
-                        
-                return SendNoContentAsync(cancellation: ct);
-            });
+        if (response.Page.Orders.Any())
+            await SendAsync(response, statusCode: (int)HttpStatusCode.PartialContent, cancellation: ct);
+        else await SendNoContentAsync(cancellation: ct);
     }
 }
