@@ -4,6 +4,7 @@
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
     </ItemGroup>
     <ItemGroup>
+        <ProjectReference Include="..\..\Infrastructure\Infrastructure.DataAccess\Infrastructure.DataAccess.csproj" />
         <ProjectReference Include="..\..\Infrastructure\Infrastructure.Mapping\Infrastructure.Mapping.csproj" />
         <ProjectReference Include="..\Application.Common\Application.Common.csproj" />
         <ProjectReference Include="..\Application.Contracts\Application.Contracts.csproj" />
