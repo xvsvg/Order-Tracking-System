@@ -13,4 +13,7 @@
     <ItemGroup>
         <InternalsVisibleTo Include="Test.Core" />
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Customers\" />
+    </ItemGroup>
 </Project>
