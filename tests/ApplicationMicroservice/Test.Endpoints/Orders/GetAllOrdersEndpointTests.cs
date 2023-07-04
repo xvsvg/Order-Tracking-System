@@ -19,10 +19,14 @@ public class GetAllOrdersEndpointTests : IAsyncLifetime
         _client = factory.CreateClient();
     }
 
-    [Fact]
-    public async Task GetOrdersFromPage_ShouldFind()
+    [Theory]
+    [InlineData(1)]
+    [InlineData(2)]
+    [InlineData(3)]
+    [InlineData(4)]
+    public async Task GetOrdersFromPage_ShouldFind(int page)
     {
-        var query = new Query(1);
+        var query = new Query(page);
 
         var (response, result) = await _client
             .GETAsync<Query, Response>($"api/orders?page={query.Page}", query);
@@ -30,7 +34,7 @@ public class GetAllOrdersEndpointTests : IAsyncLifetime
         response.Should().NotBeNull();
         response!.StatusCode.Should().Be(HttpStatusCode.PartialContent);
         result.Should().NotBeNull();
-        result!.Page.Page.Should().Be(1);
+        result!.Page.Page.Should().Be(page);
         result!.Page.Orders.Count().Should().Be(1);
     }
 
