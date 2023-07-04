@@ -14,23 +14,28 @@ namespace Test.Core.Handlers.Orders;
 public class GetAllOrdersTests : IAsyncLifetime
 {
     private readonly CoreDatabaseFixture _database;
+    private readonly GetAllOrdersHandler _handler;
 
     public GetAllOrdersTests(CoreDatabaseFixture database)
     {
-        _database = database;
+        _database = database; 
+        _handler = new GetAllOrdersHandler(_database.Context, new PaginationConfiguration(10));
     }
 
-    [Fact]
-    public async Task Handle_Should_ReturnNonEmptyPage()
+    [Theory]
+    [InlineData(1)]
+    [InlineData(2)]
+    [InlineData(3)]
+    [InlineData(4)]
+    public async Task Handle_Should_ReturnNonEmptyPage(int page)
     {
         await SeedingHelper.SeedDatabaseAsync(_database.Context);
-        var query = new Query(1);
-        var handler = new GetAllOrdersHandler(_database.Context, new PaginationConfiguration(10));
+        var query = new Query(page);
 
-        var response = await handler.Handle(query, default);
+        var response = await _handler.Handle(query, default);
 
         response.Page.Orders.Should().NotBeEmpty();
-        response.Page.Page.Should().Be(1);
+        response.Page.Page.Should().Be(page);
         response.Page.Orders.Count().Should().Be(10);
     }
 
