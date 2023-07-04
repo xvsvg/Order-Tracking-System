@@ -40,7 +40,7 @@ public class UpdateCustomerEndpointTests : IAsyncLifetime
             .PUTAsync<UpdateCustomerEndpoint, Command, Response>(command);
 
         response.Should().NotBeNull();
-        response!.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        response!.StatusCode.Should().Be(HttpStatusCode.OK);
     }
     
     [Fact]

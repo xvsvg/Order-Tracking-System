@@ -24,6 +24,6 @@ internal class UpdateCustomerEndpoint : Endpoint<Command, Response>
     {
         var response = await _mediator.Send(req, ct);
 
-        await SendNoContentAsync(ct);
+        await SendOkAsync(response, ct);
     }
 }
