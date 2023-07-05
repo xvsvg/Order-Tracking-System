@@ -5,5 +5,5 @@ namespace Application.Contracts.Customer.Commands;
 
 internal static class RemoveOrder
 {
-    public record Command(Guid Id) : IRequest<Result<Unit>>;
+    public record Command(Guid CustomerId, Guid OrderId) : IRequest<Result<Unit>>;
 }
