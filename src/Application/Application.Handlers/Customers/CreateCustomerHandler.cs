@@ -26,7 +26,7 @@ internal class CreateCustomerHandler : IRequestHandler<Command, Result<Response>
             new FullName(request.FirstName, request.MiddleName, request.LastName),
             request.ContactInfo.Select(x => new ContactInfo(x)).ToArray());
 
-        var existingCustomer = await _context.Customers.FindExistingCustomerAsync(customer, cancellationToken);
+        var existingCustomer = await _context.Customers.FindExistingPersonAsync(customer, cancellationToken);
 
         if (existingCustomer is not null)
         {
