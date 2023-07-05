@@ -23,7 +23,7 @@ public class Courier : Person
         _orders = new List<Order>();
     }
 
-    public virtual IEnumerable<Order> DeliveryList { get; }
+    public virtual IEnumerable<Order> DeliveryList => _orders;
 
     public Order AddOrderToDeliver(Order order)
     {

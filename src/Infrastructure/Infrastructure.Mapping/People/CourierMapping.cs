@@ -12,6 +12,6 @@ public static class CourierMapping
             courier.PersonId,
             courier.FullName.ToString(),
             courier.ContactInfo.Select(x => x.Contact).ToList(),
-            courier.DeliveryList.Select(x => x.ToDto()).ToList());
+            courier.DeliveryList.Select(x => x?.ToDto()).ToList());
     }
 }
