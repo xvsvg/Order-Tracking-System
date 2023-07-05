@@ -15,7 +15,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
 
         builder.HasOne(x => x.Customer)
             .WithMany(x => x.OrderHistory)
-            .OnDelete(DeleteBehavior.SetNull);
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(x => x.Courier)
             .WithMany(x => x.DeliveryList)
