@@ -10,13 +10,23 @@ namespace Test.Endpoints.Orders;
 [Collection(nameof(WebFactoryCollection))]
 public class GetAllOrdersEndpointTests : IAsyncLifetime
 {
-    private readonly WebFactory _factory;
     private readonly HttpClient _client;
+    private readonly WebFactory _factory;
 
     public GetAllOrdersEndpointTests(WebFactory factory)
     {
         _factory = factory;
         _client = factory.CreateClient();
+    }
+
+    public Task InitializeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    public Task DisposeAsync()
+    {
+        return _factory.ResetAsync();
     }
 
     [Theory]
@@ -36,15 +46,5 @@ public class GetAllOrdersEndpointTests : IAsyncLifetime
         result.Should().NotBeNull();
         result!.Page.Page.Should().Be(page);
         result!.Page.Orders.Count().Should().Be(1);
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _factory.ResetAsync();
     }
 }

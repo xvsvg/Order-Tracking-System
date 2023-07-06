@@ -1,8 +1,8 @@
 ﻿using Application.Contracts.Tools;
 using Application.Handlers.Couriers;
 using FluentAssertions;
+using Infrastructure.Seeding.Helpers;
 using Test.Core.Fixtures;
-using Test.Tools.Helpers;
 using Xunit;
 using static Application.Contracts.Courier.Queries.GetAllCouriers;
 
@@ -20,6 +20,16 @@ public class GetAllCouriersTests : IAsyncLifetime
         _handler = new GetAllCouriersHandler(_database.Context, new PaginationConfiguration(10));
     }
 
+    public Task InitializeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    public Task DisposeAsync()
+    {
+        return _database.ResetAsync();
+    }
+
     [Theory]
     [InlineData(1)]
     [InlineData(2)]
@@ -34,15 +44,5 @@ public class GetAllCouriersTests : IAsyncLifetime
 
         response.Page.Page.Should().Be(page);
         response.Page.Couriers.Count().Should().Be(10);
-    }
-    
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _database.ResetAsync();
     }
 }

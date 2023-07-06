@@ -2,9 +2,9 @@
 using Application.DataAccess.Contracts;
 using FastEndpoints;
 using FluentAssertions;
+using Infrastructure.Seeding.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Test.Endpoints.Fixtures;
-using Test.Tools.Helpers;
 using Xunit;
 using static Application.Contracts.Courier.Queries.GetCourier;
 
@@ -13,15 +13,25 @@ namespace Test.Endpoints.Couriers;
 [Collection(nameof(WebFactoryCollection))]
 public class GetCourierEndpointTests : IAsyncLifetime
 {
-    private readonly WebFactory _factory;
     private readonly HttpClient _client;
     private readonly IDatabaseContext _context;
+    private readonly WebFactory _factory;
 
     public GetCourierEndpointTests(WebFactory factory)
     {
         _factory = factory;
         _client = factory.CreateClient();
         _context = factory.Context;
+    }
+
+    public Task InitializeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    public Task DisposeAsync()
+    {
+        return _factory.ResetAsync();
     }
 
     [Fact]
@@ -52,15 +62,5 @@ public class GetCourierEndpointTests : IAsyncLifetime
 
         response.Should().NotBeNull();
         response!.StatusCode.Should().Be(HttpStatusCode.NotFound);
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _factory.ResetAsync();
     }
 }

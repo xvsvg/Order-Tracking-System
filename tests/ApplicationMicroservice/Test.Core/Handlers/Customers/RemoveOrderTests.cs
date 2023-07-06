@@ -1,8 +1,8 @@
 ﻿using Application.Handlers.Customers;
 using FluentAssertions;
+using Infrastructure.Seeding.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Test.Core.Fixtures;
-using Test.Tools.Helpers;
 using Xunit;
 using static Application.Contracts.Customer.Commands.RemoveOrder;
 
@@ -18,6 +18,16 @@ public class RemoveOrderTests : IAsyncLifetime
     {
         _database = database;
         _handler = new RemoveOrderHandler(_database.Context);
+    }
+
+    public Task InitializeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    public Task DisposeAsync()
+    {
+        return _database.ResetAsync();
     }
 
     [Fact]
@@ -39,15 +49,5 @@ public class RemoveOrderTests : IAsyncLifetime
         };
 
         await act.Should().ThrowAsync<InvalidOperationException>();
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _database.ResetAsync();
     }
 }

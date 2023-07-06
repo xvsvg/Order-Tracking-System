@@ -1,9 +1,9 @@
 using Application.DataAccess.Contracts;
 using Domain.Core.Implementations;
 using Infrastructure.DataAccess.DatabaseContexts;
-using Test.Tools.Generators;
+using Infrastructure.Seeding.Generators;
 
-namespace Test.Tools.Helpers;
+namespace Infrastructure.Seeding.Helpers;
 
 public static class SeedingHelper
 {

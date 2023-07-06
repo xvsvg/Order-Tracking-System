@@ -25,6 +25,7 @@
       <ProjectReference Include="..\..\..\src\Application\Application.Contracts\Application.Contracts.csproj" />
       <ProjectReference Include="..\..\..\src\Application\Application.Handlers\Application.Handlers.csproj" />
       <ProjectReference Include="..\..\..\src\Infrastructure\Infrastructure.Mapping\Infrastructure.Mapping.csproj" />
+      <ProjectReference Include="..\..\..\src\Infrastructure\Infrastructure.Seeding\Infrastructure.Seeding.csproj" />
       <ProjectReference Include="..\Test.Tools\Test.Tools.csproj" />
     </ItemGroup>
 

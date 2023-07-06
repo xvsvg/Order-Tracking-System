@@ -1,8 +1,8 @@
 ﻿using Application.Handlers.Orders;
 using FluentAssertions;
+using Infrastructure.Seeding.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Test.Core.Fixtures;
-using Test.Tools.Helpers;
 using Xunit;
 using static Application.Contracts.Order.Commands.UpdateOrder;
 
@@ -20,6 +20,16 @@ public class UpdateOrderTests : IAsyncLifetime
         _handler = new UpdateOrderHandler(_database.Context);
     }
 
+    public Task InitializeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    public Task DisposeAsync()
+    {
+        return _database.ResetAsync();
+    }
+
     [Fact]
     public async Task UpdateOrder_ShouldNotThrow()
     {
@@ -34,7 +44,7 @@ public class UpdateOrderTests : IAsyncLifetime
             order.DeliveryDate,
             order.Courier?.PersonId,
             order.Customer.PersonId);
-        
+
         _database.Context.Entry(order).State = EntityState.Detached;
 
         var response = await _handler.Handle(command, default);
@@ -45,15 +55,5 @@ public class UpdateOrderTests : IAsyncLifetime
 
         result.Should().NotBeNull();
         result.Name.Should().Be("New name");
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _database.ResetAsync();
     }
 }

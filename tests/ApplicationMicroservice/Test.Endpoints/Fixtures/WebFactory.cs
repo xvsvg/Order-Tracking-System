@@ -1,16 +1,15 @@
-﻿using Application.Validation.Extensions;
-using Application.Validation.Middleware;
+﻿using Application.Handlers;
+using Application.Validation.Extensions;
 using FastEndpoints;
 using Infrastructure.DataAccess.DatabaseContexts;
-using MediatR;
+using Infrastructure.Seeding.Helpers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Test.Tools.Helpers;
+using Playground.Web;
 using Testcontainers.PostgreSql;
 using Xunit;
-using Program = Playground.Web.Program;
 
 namespace Test.Endpoints.Fixtures;
 
@@ -32,6 +31,20 @@ public class WebFactory : WebApplicationFactory<Program>, IAsyncLifetime
     public PostgreSqlContainer Container { get; }
     public DatabaseContext Context { get; private set; } = null!;
 
+    public async Task InitializeAsync()
+    {
+        await Container.StartAsync();
+        Context = Services.CreateScope().ServiceProvider.GetRequiredService<DatabaseContext>();
+        await Context.Database.EnsureCreatedAsync();
+        await SeedingHelper.SeedDatabaseAsync(Context);
+    }
+
+    public new async Task DisposeAsync()
+    {
+        await Context.DisposeAsync();
+        await Container.DisposeAsync();
+    }
+
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureServices(s =>
@@ -45,29 +58,15 @@ public class WebFactory : WebApplicationFactory<Program>, IAsyncLifetime
             s.AddDbContext<DatabaseContext>(x =>
                 x.UseLazyLoadingProxies().UseNpgsql(Container.GetConnectionString()));
 
-            s.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Application.Handlers.IAssemblyMarker>());
+            s.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<IAssemblyMarker>());
             s.AddFastEndpoints();
             s.AddValidation();
         });
-    }
-
-    public async Task InitializeAsync()
-    {
-        await Container.StartAsync();
-        Context = Services.CreateScope().ServiceProvider.GetRequiredService<DatabaseContext>();
-        await Context.Database.EnsureCreatedAsync();
-        await SeedingHelper.SeedDatabaseAsync(Context);
     }
 
     public async Task ResetAsync()
     {
         Context.ChangeTracker.Clear();
         await SeedingHelper.SeedDatabaseAsync(Context);
-    }
-
-    public new async Task DisposeAsync()
-    {
-        await Context.DisposeAsync();
-        await Container.DisposeAsync();
     }
 }

@@ -3,7 +3,7 @@ using Bogus;
 using Domain.Core.Implementations;
 using Domain.Core.ValueObjects;
 
-namespace Test.Tools.Generators;
+namespace Infrastructure.Seeding.Generators;
 
 public class FakerGenerator
 {

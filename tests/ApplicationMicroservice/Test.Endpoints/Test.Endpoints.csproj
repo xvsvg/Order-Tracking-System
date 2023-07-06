@@ -26,6 +26,7 @@
     <ItemGroup>
         <ProjectReference Include="..\..\..\src\Application\Application.Contracts\Application.Contracts.csproj" />
         <ProjectReference Include="..\..\..\src\Infrastructure\Infrastructure.DataAccess\Infrastructure.DataAccess.csproj" />
+        <ProjectReference Include="..\..\..\src\Infrastructure\Infrastructure.Seeding\Infrastructure.Seeding.csproj" />
         <ProjectReference Include="..\..\..\src\Playground\Playground.Web\Playground.Web.csproj" />
         <ProjectReference Include="..\..\..\src\Presentation\Presentation.Endpoints\Presentation.Endpoints.csproj" />
         <ProjectReference Include="..\Test.Tools\Test.Tools.csproj" />

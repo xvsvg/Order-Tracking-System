@@ -13,29 +13,15 @@ namespace Test.Endpoints.Customers;
 [Collection(nameof(WebFactoryCollection))]
 public class DeleteCustomerEndpointTests : IAsyncLifetime
 {
-    private readonly WebFactory _factory;
     private readonly HttpClient _client;
     private readonly IDatabaseContext _context;
+    private readonly WebFactory _factory;
 
     public DeleteCustomerEndpointTests(WebFactory factory)
     {
         _factory = factory;
         _client = factory.CreateClient();
         _context = factory.Context;
-    }
-
-    [Fact]
-    public async Task DeleteCustomer_ShouldNotThrow()
-    {
-        var customer = await _context.Customers.FirstAsync();
-        
-        var command = new Command(customer.PersonId);
-
-        var response = await _client
-            .DELETEAsync<DeleteCustomerEndpoint, Command>(command);
-
-        response.Should().NotBeNull();
-        response!.StatusCode.Should().Be(HttpStatusCode.NoContent);
     }
 
     public Task InitializeAsync()
@@ -46,5 +32,19 @@ public class DeleteCustomerEndpointTests : IAsyncLifetime
     public Task DisposeAsync()
     {
         return _factory.ResetAsync();
+    }
+
+    [Fact]
+    public async Task DeleteCustomer_ShouldNotThrow()
+    {
+        var customer = await _context.Customers.FirstAsync();
+
+        var command = new Command(customer.PersonId);
+
+        var response = await _client
+            .DELETEAsync<DeleteCustomerEndpoint, Command>(command);
+
+        response.Should().NotBeNull();
+        response!.StatusCode.Should().Be(HttpStatusCode.NoContent);
     }
 }

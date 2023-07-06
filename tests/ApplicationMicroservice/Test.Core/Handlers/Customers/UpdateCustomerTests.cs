@@ -1,8 +1,8 @@
 ﻿using Application.Handlers.Customers;
 using FluentAssertions;
+using Infrastructure.Seeding.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Test.Core.Fixtures;
-using Test.Tools.Helpers;
 using Xunit;
 using static Application.Contracts.Customer.Commands.UpdateCustomer;
 
@@ -20,6 +20,16 @@ public class UpdateCustomerTests : IAsyncLifetime
         _handler = new UpdateCustomerHandler(_database.Context);
     }
 
+    public Task InitializeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    public Task DisposeAsync()
+    {
+        return _database.ResetAsync();
+    }
+
     [Fact]
     public async Task UpdateCustomer_Should_NotThrow()
     {
@@ -33,19 +43,9 @@ public class UpdateCustomerTests : IAsyncLifetime
             "Doe",
             customer.ContactInfo.Select(x => x.Contact));
         _database.Context.Entry(customer).State = EntityState.Detached;
-        
+
         var response = await _handler.Handle(command, default);
 
         response.Customer.Name.Should().Be("John Martin Doe");
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _database.ResetAsync();
     }
 }

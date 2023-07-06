@@ -1,8 +1,8 @@
 ﻿using Application.Handlers.Customers;
 using FluentAssertions;
+using Infrastructure.Seeding.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Test.Core.Fixtures;
-using Test.Tools.Helpers;
 using Xunit;
 using static Application.Contracts.Customer.Commands.DeleteCustomer;
 
@@ -20,22 +20,6 @@ public class DeleteCustomerTests : IAsyncLifetime
         _handler = new DeleteCustomerHandler(_database.Context);
     }
 
-    [Fact]
-    public async Task DeleteCustomer_ShouldNotThrow()
-    {
-        await SeedingHelper.SeedDatabaseAsync(_database.Context);
-        var customer = await _database.Context.Customers.FirstAsync();
-        var command = new Command(customer.PersonId);
-        
-        var response = await _handler.Handle(command, default);
-
-        var result = response.Match(
-            x => customer,
-            err => null!);
-
-        result.Should().NotBeNull();
-    }
-
     public Task InitializeAsync()
     {
         return Task.CompletedTask;
@@ -44,5 +28,21 @@ public class DeleteCustomerTests : IAsyncLifetime
     public Task DisposeAsync()
     {
         return _database.ResetAsync();
+    }
+
+    [Fact]
+    public async Task DeleteCustomer_ShouldNotThrow()
+    {
+        await SeedingHelper.SeedDatabaseAsync(_database.Context);
+        var customer = await _database.Context.Customers.FirstAsync();
+        var command = new Command(customer.PersonId);
+
+        var response = await _handler.Handle(command, default);
+
+        var result = response.Match(
+            x => customer,
+            err => null!);
+
+        result.Should().NotBeNull();
     }
 }

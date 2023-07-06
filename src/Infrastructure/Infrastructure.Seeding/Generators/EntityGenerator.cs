@@ -1,4 +1,4 @@
-﻿namespace Test.Tools.Generators;
+﻿namespace Infrastructure.Seeding.Generators;
 
 public static class EntityGenerator<T> where T : class
 {

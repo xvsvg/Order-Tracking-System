@@ -13,15 +13,25 @@ namespace Test.Endpoints.Orders;
 [Collection(nameof(WebFactoryCollection))]
 public class DeleteOrderEndpointTests : IAsyncLifetime
 {
-    private readonly WebFactory _factory;
     private readonly HttpClient _client;
     private readonly IDatabaseContext _context;
+    private readonly WebFactory _factory;
 
     public DeleteOrderEndpointTests(WebFactory factory)
     {
         _factory = factory;
         _client = factory.CreateClient();
         _context = factory.Context;
+    }
+
+    public Task InitializeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    public Task DisposeAsync()
+    {
+        return _factory.ResetAsync();
     }
 
     [Fact]
@@ -36,15 +46,5 @@ public class DeleteOrderEndpointTests : IAsyncLifetime
 
         response.Should().NotBeNull();
         response!.StatusCode.Should().Be(HttpStatusCode.NoContent);
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _factory.ResetAsync();
     }
 }

@@ -11,13 +11,23 @@ namespace Test.Endpoints.Customers;
 [Collection(nameof(WebFactoryCollection))]
 public class CreateCustomerEndpointTests : IAsyncLifetime
 {
-    private readonly WebFactory _factory;
     private readonly HttpClient _client;
+    private readonly WebFactory _factory;
 
     public CreateCustomerEndpointTests(WebFactory factory)
     {
         _factory = factory;
         _client = factory.CreateClient();
+    }
+
+    public Task InitializeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    public Task DisposeAsync()
+    {
+        return _factory.ResetAsync();
     }
 
     [Fact]
@@ -31,7 +41,7 @@ public class CreateCustomerEndpointTests : IAsyncLifetime
 
         var (response, result) = await _client
             .POSTAsync<CreateCustomerEndpoint, Command, Response>(command);
-        
+
         response.Should().NotBeNull();
         response!.StatusCode.Should().Be(HttpStatusCode.Created);
         result.Should().NotBeNull();
@@ -39,7 +49,7 @@ public class CreateCustomerEndpointTests : IAsyncLifetime
         result!.Customer.Name.Should().Be("John Martin Doe");
         result.Customer.ContactInfo.Should().Contain("whatever@gmail.com");
     }
-    
+
     [Fact]
     public async Task CreateInvalidCustomer_ShouldNotPassValidation()
     {
@@ -51,20 +61,10 @@ public class CreateCustomerEndpointTests : IAsyncLifetime
 
         var (response, result) = await _client
             .POSTAsync<CreateCustomerEndpoint, Command, Response>(command);
-        
+
         response.Should().NotBeNull();
         response!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         result.Should().NotBeNull();
         result!.Customer.Should().BeNull();
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _factory.ResetAsync();
     }
 }

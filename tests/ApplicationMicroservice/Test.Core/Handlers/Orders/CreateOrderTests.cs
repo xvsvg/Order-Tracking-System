@@ -1,8 +1,8 @@
 ﻿using Application.Handlers.Orders;
 using FluentAssertions;
+using Infrastructure.Seeding.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Test.Core.Fixtures;
-using Test.Tools.Helpers;
 using Xunit;
 using static Application.Contracts.Order.Commands.CreateOrder;
 
@@ -18,6 +18,16 @@ public class CreateOrderTests : IAsyncLifetime
     {
         _database = database;
         _handler = new CreateOrderHandler(_database.Context);
+    }
+
+    public Task InitializeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    public Task DisposeAsync()
+    {
+        return _database.ResetAsync();
     }
 
     [Fact]
@@ -63,15 +73,5 @@ public class CreateOrderTests : IAsyncLifetime
             x => null!);
 
         result.Should().BeNull();
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _database.ResetAsync();
     }
 }

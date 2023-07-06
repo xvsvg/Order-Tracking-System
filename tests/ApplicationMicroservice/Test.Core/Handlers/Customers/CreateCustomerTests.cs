@@ -1,7 +1,7 @@
 ﻿using Application.Handlers.Customers;
 using FluentAssertions;
+using Infrastructure.Seeding.Helpers;
 using Test.Core.Fixtures;
-using Test.Tools.Helpers;
 using Xunit;
 using static Application.Contracts.Customer.Commands.CreateCustomer;
 
@@ -17,6 +17,16 @@ public class CreateCustomerTests : IAsyncLifetime
     {
         _database = database;
         _handler = new CreateCustomerHandler(_database.Context);
+    }
+
+    public Task InitializeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    public Task DisposeAsync()
+    {
+        return _database.ResetAsync();
     }
 
     [Fact]
@@ -38,15 +48,5 @@ public class CreateCustomerTests : IAsyncLifetime
         result.Should().NotBeNull();
         result.Name.Should().Be("John Martin Doe");
         result.ContactInfo.Should().Contain("whatever@gmail.com");
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _database.ResetAsync();
     }
 }

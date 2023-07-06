@@ -1,8 +1,8 @@
 ﻿using Application.Handlers.Couriers;
 using FluentAssertions;
+using Infrastructure.Seeding.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Test.Core.Fixtures;
-using Test.Tools.Helpers;
 using Xunit;
 using static Application.Contracts.Courier.Commands.UpdateCourier;
 
@@ -18,6 +18,16 @@ public class UpdateCourierTests : IAsyncLifetime
     {
         _database = database;
         _handler = new UpdateCourierHandler(_database.Context);
+    }
+
+    public Task InitializeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    public Task DisposeAsync()
+    {
+        return _database.ResetAsync();
     }
 
     [Fact]
@@ -37,15 +47,5 @@ public class UpdateCourierTests : IAsyncLifetime
         var response = await _handler.Handle(command, default);
 
         response.Courier.Name.Should().Be("John Martin Doe");
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _database.ResetAsync();
     }
 }

@@ -1,8 +1,8 @@
 ﻿using Application.Handlers.Couriers;
 using FluentAssertions;
+using Infrastructure.Seeding.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Test.Core.Fixtures;
-using Test.Tools.Helpers;
 using Xunit;
 using static Application.Contracts.Courier.Commands.DeleteCourier;
 
@@ -20,22 +20,6 @@ public class DeleteCourierTests : IAsyncLifetime
         _handler = new DeleteCourierHandler(_database.Context);
     }
 
-    [Fact]
-    public async Task DeleteCustomer_ShouldNotThrow()
-    {
-        await SeedingHelper.SeedDatabaseAsync(_database.Context);
-        var courier = await _database.Context.Couriers.FirstAsync();
-        var command = new Command(courier.PersonId);
-        
-        var response = await _handler.Handle(command, default);
-
-        var result = response.Match(
-            x => courier,
-            err => null!);
-
-        result.Should().NotBeNull();
-    }
-
     public Task InitializeAsync()
     {
         return Task.CompletedTask;
@@ -44,5 +28,21 @@ public class DeleteCourierTests : IAsyncLifetime
     public Task DisposeAsync()
     {
         return _database.ResetAsync();
+    }
+
+    [Fact]
+    public async Task DeleteCustomer_ShouldNotThrow()
+    {
+        await SeedingHelper.SeedDatabaseAsync(_database.Context);
+        var courier = await _database.Context.Couriers.FirstAsync();
+        var command = new Command(courier.PersonId);
+
+        var response = await _handler.Handle(command, default);
+
+        var result = response.Match(
+            x => courier,
+            err => null!);
+
+        result.Should().NotBeNull();
     }
 }

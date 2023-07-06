@@ -1,8 +1,8 @@
 ﻿using Application.Handlers.Orders;
 using FluentAssertions;
+using Infrastructure.Seeding.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Test.Core.Fixtures;
-using Test.Tools.Helpers;
 using Xunit;
 using static Application.Contracts.Order.Commands.DeleteOrder;
 
@@ -20,6 +20,16 @@ public class DeleteOrderTests : IAsyncLifetime
         _handler = new DeleteOrderHandler(_database.Context);
     }
 
+    public Task InitializeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    public Task DisposeAsync()
+    {
+        return _database.ResetAsync();
+    }
+
     [Fact]
     public async Task DeleteOrder_ShouldNotThrow()
     {
@@ -35,15 +45,5 @@ public class DeleteOrderTests : IAsyncLifetime
             err => Guid.Empty);
 
         result.Should().NotBe(Guid.Empty);
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _database.ResetAsync();
     }
 }

@@ -1,8 +1,8 @@
 ﻿using Application.Handlers.Customers;
 using FluentAssertions;
+using Infrastructure.Seeding.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Test.Core.Fixtures;
-using Test.Tools.Helpers;
 using Xunit;
 using static Application.Contracts.Customer.Queries.GetCustomer;
 
@@ -13,11 +13,21 @@ public class GetCustomerTests : IAsyncLifetime
 {
     private readonly CoreDatabaseFixture _database;
     private readonly GetCustomerHandler _handler;
-    
+
     public GetCustomerTests(CoreDatabaseFixture database)
     {
         _database = database;
         _handler = new GetCustomerHandler(_database.Context);
+    }
+
+    public Task InitializeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    public Task DisposeAsync()
+    {
+        return _database.ResetAsync();
     }
 
     [Fact]
@@ -44,15 +54,5 @@ public class GetCustomerTests : IAsyncLifetime
         response.Should().NotBeNull();
         response!.Customer.Should().NotBeNull();
         response!.Customer!.Id.Should().Be(customer.PersonId);
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _database.ResetAsync();
     }
 }

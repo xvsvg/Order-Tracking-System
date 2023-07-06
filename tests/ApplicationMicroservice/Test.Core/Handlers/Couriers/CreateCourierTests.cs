@@ -1,7 +1,7 @@
 ﻿using Application.Handlers.Couriers;
 using FluentAssertions;
+using Infrastructure.Seeding.Helpers;
 using Test.Core.Fixtures;
-using Test.Tools.Helpers;
 using Xunit;
 using static Application.Contracts.Courier.Commands.CreateCourier;
 
@@ -17,6 +17,16 @@ public class CreateCourierTests : IAsyncLifetime
     {
         _database = database;
         _handler = new CreateCourierHandler(_database.Context);
+    }
+
+    public Task InitializeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    public Task DisposeAsync()
+    {
+        return _database.ResetAsync();
     }
 
     [Fact]
@@ -38,15 +48,5 @@ public class CreateCourierTests : IAsyncLifetime
         result.Should().NotBeNull();
         result.Name.Should().Be("John Martin Doe");
         result.ContactInfo.Should().Contain("whatever@gmail.com");
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _database.ResetAsync();
     }
 }

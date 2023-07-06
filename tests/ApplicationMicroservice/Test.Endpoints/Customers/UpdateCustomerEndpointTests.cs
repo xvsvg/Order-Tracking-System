@@ -13,15 +13,25 @@ namespace Test.Endpoints.Customers;
 [Collection(nameof(WebFactoryCollection))]
 public class UpdateCustomerEndpointTests : IAsyncLifetime
 {
-    private readonly WebFactory _factory;
     private readonly HttpClient _client;
     private readonly IDatabaseContext _context;
+    private readonly WebFactory _factory;
 
     public UpdateCustomerEndpointTests(WebFactory factory)
     {
         _factory = factory;
         _client = _factory.CreateClient();
         _context = factory.Context;
+    }
+
+    public Task InitializeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    public Task DisposeAsync()
+    {
+        return _factory.ResetAsync();
     }
 
     [Fact]
@@ -42,7 +52,7 @@ public class UpdateCustomerEndpointTests : IAsyncLifetime
         response.Should().NotBeNull();
         response!.StatusCode.Should().Be(HttpStatusCode.OK);
     }
-    
+
     [Fact]
     public async Task UpdateCustomer_ShouldNotPassValidation()
     {
@@ -60,15 +70,5 @@ public class UpdateCustomerEndpointTests : IAsyncLifetime
 
         response.Should().NotBeNull();
         response!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _factory.ResetAsync();
     }
 }

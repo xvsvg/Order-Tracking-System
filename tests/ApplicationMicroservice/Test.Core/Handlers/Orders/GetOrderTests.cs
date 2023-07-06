@@ -1,8 +1,8 @@
 ﻿using Application.Handlers.Orders;
 using FluentAssertions;
+using Infrastructure.Seeding.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Test.Core.Fixtures;
-using Test.Tools.Helpers;
 using Xunit;
 using static Application.Contracts.Order.Queries.GetOrder;
 
@@ -16,6 +16,16 @@ public class GetOrderTests : IAsyncLifetime
     public GetOrderTests(CoreDatabaseFixture database)
     {
         _database = database;
+    }
+
+    public Task InitializeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    public Task DisposeAsync()
+    {
+        return _database.ResetAsync();
     }
 
     [Fact]
@@ -41,15 +51,5 @@ public class GetOrderTests : IAsyncLifetime
         var response = await handler.Handle(query, CancellationToken.None);
 
         response.Order.Should().NotBeNull();
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _database.ResetAsync();
     }
 }

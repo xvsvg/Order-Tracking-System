@@ -1,9 +1,8 @@
 ﻿using Application.Contracts.Tools;
 using Application.Handlers.Customers;
-using Bogus.Extensions;
 using FluentAssertions;
+using Infrastructure.Seeding.Helpers;
 using Test.Core.Fixtures;
-using Test.Tools.Helpers;
 using Xunit;
 using static Application.Contracts.Customer.Queries.GetAllCustomers;
 
@@ -21,6 +20,16 @@ public class GetAllCustomersTests : IAsyncLifetime
         _handler = new GetAllCustomersHandler(_database.Context, new PaginationConfiguration(10));
     }
 
+    public Task InitializeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    public Task DisposeAsync()
+    {
+        return _database.ResetAsync();
+    }
+
     [Theory]
     [InlineData(1)]
     [InlineData(2)]
@@ -36,15 +45,5 @@ public class GetAllCustomersTests : IAsyncLifetime
         response.Page.Customers.Should().NotBeNull();
         response.Page.Page.Should().Be(page);
         response.Page.Customers.Count().Should().Be(10);
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _database.ResetAsync();
     }
 }

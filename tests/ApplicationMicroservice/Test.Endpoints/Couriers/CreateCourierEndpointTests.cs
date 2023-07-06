@@ -11,13 +11,23 @@ namespace Test.Endpoints.Couriers;
 [Collection(nameof(WebFactoryCollection))]
 public class CreateCourierEndpointTests : IAsyncLifetime
 {
-    private readonly WebFactory _factory;
     private readonly HttpClient _client;
+    private readonly WebFactory _factory;
 
     public CreateCourierEndpointTests(WebFactory factory)
     {
         _factory = factory;
         _client = factory.CreateClient();
+    }
+
+    public Task InitializeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    public Task DisposeAsync()
+    {
+        return _factory.ResetAsync();
     }
 
     [Fact]
@@ -56,15 +66,5 @@ public class CreateCourierEndpointTests : IAsyncLifetime
         response!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         result.Should().NotBeNull();
         result!.Courier.Should().BeNull();
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _factory.ResetAsync();
     }
 }

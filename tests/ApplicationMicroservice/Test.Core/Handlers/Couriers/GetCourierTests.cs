@@ -1,8 +1,8 @@
 ﻿using Application.Handlers.Customers;
 using FluentAssertions;
+using Infrastructure.Seeding.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Test.Core.Fixtures;
-using Test.Tools.Helpers;
 using Xunit;
 using static Application.Contracts.Customer.Queries.GetCustomer;
 
@@ -20,6 +20,16 @@ public class GetCourierTests : IAsyncLifetime
         _handler = new GetCustomerHandler(_database.Context);
     }
 
+    public Task InitializeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    public Task DisposeAsync()
+    {
+        return _database.ResetAsync();
+    }
+
     [Fact]
     public async Task GetCustomer_ShouldFind()
     {
@@ -32,7 +42,7 @@ public class GetCourierTests : IAsyncLifetime
 
         response.Customer.Should().NotBeNull();
     }
-    
+
     [Fact]
     public async Task GetCustomer_ShouldNotFind()
     {
@@ -43,15 +53,5 @@ public class GetCourierTests : IAsyncLifetime
         var response = await _handler.Handle(query, default);
 
         response.Customer.Should().BeNull();
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _database.ResetAsync();
     }
 }

@@ -1,10 +1,8 @@
 ﻿using Application.Contracts.Tools;
-using Application.Dto;
-using Application.Dto.Pages;
 using Application.Handlers.Orders;
 using FluentAssertions;
+using Infrastructure.Seeding.Helpers;
 using Test.Core.Fixtures;
-using Test.Tools.Helpers;
 using Xunit;
 using static Application.Contracts.Order.Queries.GetAllOrders;
 
@@ -18,8 +16,18 @@ public class GetAllOrdersTests : IAsyncLifetime
 
     public GetAllOrdersTests(CoreDatabaseFixture database)
     {
-        _database = database; 
+        _database = database;
         _handler = new GetAllOrdersHandler(_database.Context, new PaginationConfiguration(10));
+    }
+
+    public Task InitializeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    public Task DisposeAsync()
+    {
+        return _database.ResetAsync();
     }
 
     [Theory]
@@ -37,15 +45,5 @@ public class GetAllOrdersTests : IAsyncLifetime
         response.Page.Orders.Should().NotBeEmpty();
         response.Page.Page.Should().Be(page);
         response.Page.Orders.Count().Should().Be(10);
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _database.ResetAsync();
     }
 }
