@@ -2,7 +2,7 @@
 using FluentValidation;
 using MediatR.Pipeline;
 
-namespace Application.Validation.Processor;
+namespace Application.Middlewares.Processor;
 
 public class ValidationPreProcessor<TRequest> : IRequestPreProcessor<TRequest>
     where TRequest : IValidatableRequest

@@ -1,7 +1,7 @@
 ﻿using Application.Validation.Extensions;
 using FluentValidation;
 
-namespace Application.Validation.Middleware;
+namespace Application.Middlewares;
 
 public class ValidationMappingMiddleware : IMiddleware
 {

@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.Validation.Extensions;
 
@@ -7,7 +8,6 @@ public static class RegistrationExtensions
     public static IServiceCollection AddValidation(this IServiceCollection collection)
     {
         collection.AddInternalValidatorsFromAssemblyContaining<IAssemblyMarker>();
-        collection.AddMediatR(c => c.RegisterServicesFromAssemblyContaining<IAssemblyMarker>());
         return collection;
     }
 

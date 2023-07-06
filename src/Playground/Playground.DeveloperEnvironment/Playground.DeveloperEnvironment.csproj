@@ -3,12 +3,15 @@
       <RootNamespace>Playground.Web</RootNamespace>
     </PropertyGroup>
     <ItemGroup>
+        <PackageReference Include="AspNetCore.HealthChecks.NpgSql" />
+        <PackageReference Include="AspNetCore.HealthChecks.UI.Client" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\..\Application\Application.Handlers\Application.Handlers.csproj" />
+        <ProjectReference Include="..\..\Application\Application.Middlewares\Application.Middlewares.csproj" />
         <ProjectReference Include="..\..\Infrastructure\Infrastructure.DataAccess\Infrastructure.DataAccess.csproj" />
         <ProjectReference Include="..\..\Infrastructure\Infrastructure.Seeding\Infrastructure.Seeding.csproj" />
         <ProjectReference Include="..\..\Presentation\Presentation.Endpoints\Presentation.Endpoints.csproj" />
