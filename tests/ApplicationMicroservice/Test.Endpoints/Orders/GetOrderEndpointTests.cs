@@ -8,26 +8,10 @@ using static Application.Contracts.Order.Queries.GetOrder;
 
 namespace Test.Endpoints.Orders;
 
-[Collection(nameof(WebFactoryCollection))]
-public class GetOrderEndpointTests : IAsyncLifetime
+public class GetOrderEndpointTests : EndpointTestBase
 {
-    private readonly HttpClient _client;
-    private readonly WebFactory _factory;
-
-    public GetOrderEndpointTests(WebFactory factory)
+    public GetOrderEndpointTests(WebFactory factory) : base(factory)
     {
-        _factory = factory;
-        _client = factory.CreateClient();
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _factory.ResetAsync();
     }
 
     [Fact]
@@ -35,7 +19,7 @@ public class GetOrderEndpointTests : IAsyncLifetime
     {
         var query = new Query(Guid.NewGuid());
 
-        var (response, result) = await _client
+        var (response, result) = await Client
             .GETAsync<Query, Response>($"api/orders/{query.Id}", query);
 
         response.Should().NotBeNull();
@@ -46,10 +30,10 @@ public class GetOrderEndpointTests : IAsyncLifetime
     [Fact]
     public async Task GetOrderById_Should_Find()
     {
-        var order = await _factory.Context.Orders.FirstAsync();
+        var order = await Database.Orders.FirstAsync();
         var query = new Query(order.OrderId);
 
-        var (response, result) = await _client
+        var (response, result) = await Client
             .GETAsync<Query, Response>($"api/orders/{query.Id}", query);
 
         response.Should().NotBeNull();

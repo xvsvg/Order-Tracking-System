@@ -1,44 +1,26 @@
 ﻿using System.Net;
 using FastEndpoints;
 using FluentAssertions;
+using Test.Endpoints.ClassData;
 using Test.Endpoints.Fixtures;
 using Xunit;
 using static Application.Contracts.Order.Queries.GetAllOrders;
 
 namespace Test.Endpoints.Orders;
 
-[Collection(nameof(WebFactoryCollection))]
-public class GetAllOrdersEndpointTests : IAsyncLifetime
+public class GetAllOrdersEndpointTests : EndpointTestBase
 {
-    private readonly HttpClient _client;
-    private readonly WebFactory _factory;
-
-    public GetAllOrdersEndpointTests(WebFactory factory)
+    public GetAllOrdersEndpointTests(WebFactory factory) : base(factory)
     {
-        _factory = factory;
-        _client = factory.CreateClient();
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _factory.ResetAsync();
     }
 
     [Theory]
-    [InlineData(1)]
-    [InlineData(2)]
-    [InlineData(3)]
-    [InlineData(4)]
-    public async Task GetOrdersFromPage_ShouldFind(int page)
+    [ClassData(typeof(EndpointTestData))]
+    public async Task GetOrdersFromPage_Should_ReturnNonEmptyPage(int page)
     {
         var query = new Query(page);
 
-        var (response, result) = await _client
+        var (response, result) = await Client
             .GETAsync<Query, Response>($"api/orders?page={query.Page}", query);
 
         response.Should().NotBeNull();

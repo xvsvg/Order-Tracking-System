@@ -1,4 +1,6 @@
 ﻿using System.Net;
+using Application.DataAccess.Contracts;
+using Domain.Core.Implementations;
 using FastEndpoints;
 using FluentAssertions;
 using Infrastructure.DataAccess.DatabaseContexts;
@@ -11,68 +13,48 @@ using static Application.Contracts.Order.Commands.CreateOrder;
 
 namespace Test.Endpoints.Orders;
 
-[Collection(nameof(WebFactoryCollection))]
-public class CreateOrderEndpointTests : IAsyncLifetime
+public class CreateOrderEndpointTests : EndpointTestBase
 {
-    private readonly HttpClient _client;
-    private readonly DatabaseContext _database;
-    private readonly WebFactory _factory;
+    private readonly Lazy<Task<Customer>> _customer;
 
-    public CreateOrderEndpointTests(WebFactory factory)
+    public CreateOrderEndpointTests(WebFactory factory) : base(factory)
     {
-        _factory = factory;
-        _client = factory.CreateClient();
-        _database = factory.Context;
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _factory.ResetAsync();
+        _customer = new Lazy<Task<Customer>>(async () =>
+            await Database.Customers.FirstAsync());
     }
 
     [Fact]
-    public async Task CreateValidOrder_ShouldPassValidation()
+    public async Task CreateValidOrder_Should_PassValidation()
     {
-        await SeedingHelper.SeedDatabaseAsync(_database);
-        var customer = await _database.Customers.FirstAsync();
-
         var command = new Command(
             "Whatever",
             DateTime.UtcNow.AddDays(1),
             DateTime.UtcNow.AddDays(2),
             null,
-            customer.PersonId);
+            _customer.Value.Result.PersonId);
 
-        var (response, result) = await _client
+        var (response, result) = await Client
             .POSTAsync<CreateOrderEndpoint, Command, Response>(command);
 
         response.Should().NotBeNull();
         response!.StatusCode.Should().Be(HttpStatusCode.Created);
         result.Should().NotBeNull();
         result!.Order.CourierId.Should().Be(null);
-        result.Order.CustomerId.Should().Be(customer.PersonId);
+        result.Order.CustomerId.Should().Be(_customer.Value.Result.PersonId);
         result.Order.Name.Should().Be("Whatever");
     }
 
     [Fact]
-    public async Task CreateInvalidOrder_ShouldNotPassValidation()
+    public async Task CreateInvalidOrder_Should_NotPassValidation()
     {
-        await SeedingHelper.SeedDatabaseAsync(_database);
-        var customer = await _database.Customers.FirstAsync();
-
         var command = new Command(
             "djsklajd123jilkfg[",
             DateTime.UtcNow,
             DateTime.UtcNow,
             null,
-            customer.PersonId);
+            _customer.Value.Result.PersonId);
 
-        var (response, result) = await _client
+        var (response, result) = await Client
             .POSTAsync<CreateOrderEndpoint, Command, Response>(command);
 
         response.Should().NotBeNull();

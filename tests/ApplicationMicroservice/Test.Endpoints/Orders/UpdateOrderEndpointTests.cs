@@ -8,48 +8,35 @@ using Presentation.Endpoints.Order;
 using Test.Endpoints.Fixtures;
 using Xunit;
 using static Application.Contracts.Order.Commands.UpdateOrder;
+using Order = Domain.Core.Implementations.Order;
 
 namespace Test.Endpoints.Orders;
 
-[Collection(nameof(WebFactoryCollection))]
-public class UpdateOrderEndpointTests : IAsyncLifetime
+public class UpdateOrderEndpointTests : EndpointTestBase
 {
-    private readonly HttpClient _client;
-    private readonly DatabaseContext _database;
-    private readonly WebFactory _factory;
+    private readonly Lazy<Task<Order>> _orderProxy;
+    private readonly Order _order;
 
-    public UpdateOrderEndpointTests(WebFactory factory)
+    public UpdateOrderEndpointTests(WebFactory factory) : base(factory)
     {
-        _factory = factory;
-        _client = factory.CreateClient();
-        _database = factory.Context;
-    }
+        _orderProxy = new Lazy<Task<Order>>(async () =>
+            await Database.Orders.FirstAsync());
 
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _factory.ResetAsync();
+        _order = _orderProxy.Value.Result;
     }
 
     [Fact]
-    public async Task UpdateOrder_ShouldPassValidation()
+    public async Task UpdateOrder_Should_PassValidation()
     {
-        await SeedingHelper.SeedDatabaseAsync(_database);
-        var order = await _database.Orders.FirstAsync();
-
         var command = new Command(
-            order.OrderId,
+            _order.OrderId,
             "New",
-            order.DispatchDate,
-            order.DeliveryDate,
-            order.Courier?.PersonId,
-            order.Customer.PersonId);
+            _order.DispatchDate,
+            _order.DeliveryDate,
+            _order.Courier?.PersonId,
+            _order.Customer.PersonId);
 
-        var (response, result) = await _client
+        var (response, result) = await Client
             .PUTAsync<UpdateOrderEndpoint, Command, Response>(command);
 
         response.Should().NotBeNull();
@@ -59,20 +46,17 @@ public class UpdateOrderEndpointTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task UpdateOrder_ShouldNot_PassValidation()
+    public async Task UpdateOrder_Should_NotPassValidation()
     {
-        await SeedingHelper.SeedDatabaseAsync(_database);
-        var order = await _database.Orders.FirstAsync();
-
         var command = new Command(
-            order.OrderId,
+            _order.OrderId,
             "sa",
-            order.DispatchDate,
-            order.DeliveryDate,
-            order.Courier?.PersonId,
-            order.Customer.PersonId);
+            _order.DispatchDate,
+            _order.DeliveryDate,
+            _order.Courier?.PersonId,
+            _order.Customer.PersonId);
 
-        var (response, result) = await _client
+        var (response, _) = await Client
             .PUTAsync<UpdateOrderEndpoint, Command, Response>(command);
 
         response.Should().NotBeNull();

@@ -10,38 +10,19 @@ using static Application.Contracts.Order.Commands.DeleteOrder;
 
 namespace Test.Endpoints.Orders;
 
-[Collection(nameof(WebFactoryCollection))]
-public class DeleteOrderEndpointTests : IAsyncLifetime
+public class DeleteOrderEndpointTests : EndpointTestBase
 {
-    private readonly HttpClient _client;
-    private readonly IDatabaseContext _context;
-    private readonly WebFactory _factory;
-
-    public DeleteOrderEndpointTests(WebFactory factory)
+    public DeleteOrderEndpointTests(WebFactory factory) : base(factory)
     {
-        _factory = factory;
-        _client = factory.CreateClient();
-        _context = factory.Context;
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _factory.ResetAsync();
     }
 
     [Fact]
-    public async Task DeleteOrder_ShouldNotThrow()
+    public async Task DeleteOrder_Should_DeleteSuccessfully()
     {
-        var order = await _context.Orders.FirstAsync();
-
+        var order = await Database.Orders.FirstAsync();
         var command = new Command(order.OrderId);
 
-        var response = await _client
+        var response = await Client
             .DELETEAsync<DeleteOrderEndpoint, Command>(command);
 
         response.Should().NotBeNull();
