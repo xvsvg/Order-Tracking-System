@@ -1,4 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
+    <PropertyGroup>
+      <RootNamespace>Playground.Web</RootNamespace>
+    </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
@@ -7,6 +10,7 @@
     <ItemGroup>
         <ProjectReference Include="..\..\Application\Application.Handlers\Application.Handlers.csproj" />
         <ProjectReference Include="..\..\Infrastructure\Infrastructure.DataAccess\Infrastructure.DataAccess.csproj" />
+        <ProjectReference Include="..\..\Infrastructure\Infrastructure.Seeding\Infrastructure.Seeding.csproj" />
         <ProjectReference Include="..\..\Presentation\Presentation.Endpoints\Presentation.Endpoints.csproj" />
     </ItemGroup>
 

@@ -41,7 +41,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Handlers", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Validation", "src\Application\Application.Validation\Application.Validation.csproj", "{A391332D-FACB-49E8-80E3-6CD3EB9DB378}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playground.Web", "src\Playground\Playground.Web\Playground.Web.csproj", "{AFE3C439-A3A7-41AD-A3C8-DA9429BBDCE8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playground.DeveloperEnvironment", "src\Playground\Playground.DeveloperEnvironment\Playground.DeveloperEnvironment.csproj", "{AFE3C439-A3A7-41AD-A3C8-DA9429BBDCE8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Tools", "tests\ApplicationMicroservice\Test.Tools\Test.Tools.csproj", "{F7C028E9-10BA-4513-ABE0-4293C74A4691}"
 EndProject
