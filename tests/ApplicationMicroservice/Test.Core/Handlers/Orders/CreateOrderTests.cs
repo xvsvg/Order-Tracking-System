@@ -8,35 +8,20 @@ using static Application.Contracts.Order.Commands.CreateOrder;
 
 namespace Test.Core.Handlers.Orders;
 
-[Collection(nameof(CoreDatabaseCollectionFixture))]
-public class CreateOrderTests : IAsyncLifetime
+public class CreateOrderTests : TestBase
 {
-    private readonly CoreDatabaseFixture _database;
     private readonly CreateOrderHandler _handler;
 
-    public CreateOrderTests(CoreDatabaseFixture database)
+    public CreateOrderTests(CoreDatabaseFixture database) : base(database)
     {
-        _database = database;
-        _handler = new CreateOrderHandler(_database.Context);
+        _handler = new CreateOrderHandler(database.Context);
     }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _database.ResetAsync();
-    }
-
+    
     [Fact]
-    public async Task CreateValidOrder_ShouldPassValidation_And_BeCreated()
+    public async Task CreateValidOrder_Should_PassValidation_And_BeCreated()
     {
-        await SeedingHelper.SeedDatabaseAsync(_database.Context);
-        var customer = await _database.Context.Customers.FirstAsync();
-        var courier = await _database.Context.Couriers.FirstAsync();
-
+        var customer = await Database.Context.Customers.FirstAsync();
+        var courier = await Database.Context.Couriers.FirstAsync();
         var command = new Command(
             "Whatever",
             DateTime.UtcNow,
@@ -57,7 +42,7 @@ public class CreateOrderTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task CreateInvalidOrder_ShouldNotPassValidation()
+    public async Task CreateInvalidOrder_Should_NotPassValidation()
     {
         var command = new Command(
             "123asdas",

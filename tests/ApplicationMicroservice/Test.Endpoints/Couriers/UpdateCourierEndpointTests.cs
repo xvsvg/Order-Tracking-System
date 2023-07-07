@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Application.DataAccess.Contracts;
+using Domain.Core.Implementations;
 using FastEndpoints;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
@@ -10,43 +11,27 @@ using static Application.Contracts.Courier.Commands.UpdateCourier;
 
 namespace Test.Endpoints.Couriers;
 
-[Collection(nameof(WebFactoryCollection))]
-public class UpdateCourierEndpointTests : IAsyncLifetime
+public class UpdateCourierEndpointTests : EndpointTestBase
 {
-    private readonly HttpClient _client;
-    private readonly IDatabaseContext _context;
-    private readonly WebFactory _factory;
-
-    public UpdateCourierEndpointTests(WebFactory factory)
+    private readonly Courier _courier;
+    public UpdateCourierEndpointTests(WebFactory factory) : base(factory)
     {
-        _factory = factory;
-        _client = _factory.CreateClient();
-        _context = factory.Context;
-    }
+        var proxy = new Lazy<Task<Courier>>(async () => await Database.Couriers.FirstAsync());
 
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _factory.ResetAsync();
+        _courier = proxy.Value.Result;
     }
 
     [Fact]
-    public async Task UpdateCustomer_ShouldPassValidation()
+    public async Task UpdateCustomer_Should_PassValidation()
     {
-        var courier = await _context.Couriers.FirstAsync();
-
         var command = new Command(
-            courier.PersonId,
+            _courier.PersonId,
             "John",
             "Martin",
             "Doe",
-            courier.ContactInfo.Select(x => x.Contact));
+            _courier.ContactInfo.Select(x => x.Contact));
 
-        var (response, result) = await _client
+        var (response, result) = await Client
             .PUTAsync<UpdateCourierEndpoint, Command, Response>(command);
 
         response.Should().NotBeNull();
@@ -54,18 +39,16 @@ public class UpdateCourierEndpointTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task UpdateCustomer_ShouldNotPassValidation()
+    public async Task UpdateCustomer_Should_NotPassValidation()
     {
-        var courier = await _context.Couriers.FirstAsync();
-
         var command = new Command(
-            courier.PersonId,
+            _courier.PersonId,
             "john",
             "Mart1n",
             "Do",
-            courier.ContactInfo.Select(x => x.Contact));
+            _courier.ContactInfo.Select(x => x.Contact));
 
-        var (response, result) = await _client
+        var (response, result) = await Client
             .PUTAsync<UpdateCourierEndpoint, Command, Response>(command);
 
         response.Should().NotBeNull();

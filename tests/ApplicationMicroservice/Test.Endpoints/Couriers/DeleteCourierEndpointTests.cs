@@ -2,6 +2,7 @@
 using Application.DataAccess.Contracts;
 using FastEndpoints;
 using FluentAssertions;
+using LanguageExt.Pipes;
 using Microsoft.EntityFrameworkCore;
 using Presentation.Endpoints.Couriers;
 using Test.Endpoints.Fixtures;
@@ -10,38 +11,19 @@ using static Application.Contracts.Courier.Commands.DeleteCourier;
 
 namespace Test.Endpoints.Couriers;
 
-[Collection(nameof(WebFactoryCollection))]
-public class DeleteCourierEndpointTests : IAsyncLifetime
+public class DeleteCourierEndpointTests : EndpointTestBase
 {
-    private readonly HttpClient _client;
-    private readonly IDatabaseContext _context;
-    private readonly WebFactory _factory;
-
-    public DeleteCourierEndpointTests(WebFactory factory)
+    public DeleteCourierEndpointTests(WebFactory factory) : base(factory)
     {
-        _factory = factory;
-        _client = factory.CreateClient();
-        _context = factory.Context;
     }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _factory.ResetAsync();
-    }
-
+    
     [Fact]
-    public async Task DeleteCustomer_ShouldNotThrow()
+    public async Task DeleteCustomer_Should_DeleteSuccessfully()
     {
-        var courier = await _context.Couriers.FirstAsync();
-
+        var courier = await Database.Couriers.FirstAsync();
         var command = new Command(courier.PersonId);
 
-        var response = await _client
+        var response = await Client
             .DELETEAsync<DeleteCourierEndpoint, Command>(command);
 
         response.Should().NotBeNull();

@@ -8,41 +8,26 @@ using static Application.Contracts.Customer.Commands.UpdateCustomer;
 
 namespace Test.Core.Handlers.Customers;
 
-[Collection(nameof(CoreDatabaseCollectionFixture))]
-public class UpdateCustomerTests : IAsyncLifetime
+public class UpdateCustomerTests : TestBase
 {
-    private readonly CoreDatabaseFixture _database;
     private readonly UpdateCustomerHandler _handler;
 
-    public UpdateCustomerTests(CoreDatabaseFixture database)
+    public UpdateCustomerTests(CoreDatabaseFixture database) : base(database)
     {
-        _database = database;
-        _handler = new UpdateCustomerHandler(_database.Context);
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _database.ResetAsync();
+        _handler = new UpdateCustomerHandler(database.Context);
     }
 
     [Fact]
     public async Task UpdateCustomer_Should_NotThrow()
     {
-        await SeedingHelper.SeedDatabaseAsync(_database.Context);
-        var customer = await _database.Context.Customers.FirstAsync();
-
+        var customer = await Database.Context.Customers.FirstAsync();
         var command = new Command(
             customer.PersonId,
             "John",
             "Martin",
             "Doe",
             customer.ContactInfo.Select(x => x.Contact));
-        _database.Context.Entry(customer).State = EntityState.Detached;
+        Database.Context.Entry(customer).State = EntityState.Detached;
 
         var response = await _handler.Handle(command, default);
 

@@ -8,34 +8,19 @@ using static Application.Contracts.Order.Commands.DeleteOrder;
 
 namespace Test.Core.Handlers.Orders;
 
-[Collection(nameof(CoreDatabaseCollectionFixture))]
-public class DeleteOrderTests : IAsyncLifetime
+public class DeleteOrderTests : TestBase
 {
-    private readonly CoreDatabaseFixture _database;
     private readonly DeleteOrderHandler _handler;
 
-    public DeleteOrderTests(CoreDatabaseFixture database)
+    public DeleteOrderTests(CoreDatabaseFixture database) : base(database)
     {
-        _database = database;
-        _handler = new DeleteOrderHandler(_database.Context);
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _database.ResetAsync();
+        _handler = new DeleteOrderHandler(database.Context);
     }
 
     [Fact]
-    public async Task DeleteOrder_ShouldNotThrow()
+    public async Task DeleteOrder_Should_SuccessfullyDelete()
     {
-        await SeedingHelper.SeedDatabaseAsync(_database.Context);
-        var order = await _database.Context.Orders.FirstAsync();
-
+        var order = await Database.Context.Orders.FirstAsync();
         var command = new Command(order.OrderId);
 
         var response = await _handler.Handle(command, default);

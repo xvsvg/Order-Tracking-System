@@ -8,35 +8,19 @@ using static Application.Contracts.Order.Commands.UpdateOrder;
 
 namespace Test.Core.Handlers.Orders;
 
-[Collection(nameof(CoreDatabaseCollectionFixture))]
-public class UpdateOrderTests : IAsyncLifetime
+public class UpdateOrderTests : TestBase
 {
-    private readonly CoreDatabaseFixture _database;
     private readonly UpdateOrderHandler _handler;
 
-    public UpdateOrderTests(CoreDatabaseFixture database)
+    public UpdateOrderTests(CoreDatabaseFixture database) : base(database)
     {
-        _database = database;
-        _handler = new UpdateOrderHandler(_database.Context);
+        _handler = new UpdateOrderHandler(database.Context);
     }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _database.ResetAsync();
-    }
-
+    
     [Fact]
     public async Task UpdateOrder_ShouldNotThrow()
     {
-        await SeedingHelper.SeedDatabaseAsync(_database.Context);
-
-        var order = await _database.Context.Orders.FirstAsync();
-
+        var order = await Database.Context.Orders.FirstAsync();
         var command = new Command(
             order.OrderId,
             "New name",
@@ -44,8 +28,7 @@ public class UpdateOrderTests : IAsyncLifetime
             order.DeliveryDate,
             order.Courier?.PersonId,
             order.Customer.PersonId);
-
-        _database.Context.Entry(order).State = EntityState.Detached;
+        Database.Context.Entry(order).State = EntityState.Detached;
 
         var response = await _handler.Handle(command, default);
 

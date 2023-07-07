@@ -1,43 +1,26 @@
 ﻿using Application.Contracts.Tools;
 using Application.Handlers.Orders;
 using FluentAssertions;
-using Infrastructure.Seeding.Helpers;
+using Test.Core.ClassData;
 using Test.Core.Fixtures;
 using Xunit;
 using static Application.Contracts.Order.Queries.GetAllOrders;
 
 namespace Test.Core.Handlers.Orders;
 
-[Collection(nameof(CoreDatabaseCollectionFixture))]
-public class GetAllOrdersTests : IAsyncLifetime
+public class GetAllOrdersTests : TestBase
 {
-    private readonly CoreDatabaseFixture _database;
     private readonly GetAllOrdersHandler _handler;
 
-    public GetAllOrdersTests(CoreDatabaseFixture database)
+    public GetAllOrdersTests(CoreDatabaseFixture database) : base(database)
     {
-        _database = database;
-        _handler = new GetAllOrdersHandler(_database.Context, new PaginationConfiguration(10));
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _database.ResetAsync();
+        _handler = new GetAllOrdersHandler(database.Context, new PaginationConfiguration(10));
     }
 
     [Theory]
-    [InlineData(1)]
-    [InlineData(2)]
-    [InlineData(3)]
-    [InlineData(4)]
+    [ClassData(typeof(HandlerTestData))]
     public async Task Handle_Should_ReturnNonEmptyPage(int page)
     {
-        await SeedingHelper.SeedDatabaseAsync(_database.Context);
         var query = new Query(page);
 
         var response = await _handler.Handle(query, default);

@@ -43,4 +43,9 @@ public class CoreDatabaseFixture : DatabaseFixture
 
         return Task.CompletedTask;
     }
+    
+    protected override async Task SeedDatabaseAsync()
+    {
+        await SeedingHelper.SeedDatabaseAsync(Context);
+    }
 }

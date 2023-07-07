@@ -1,7 +1,9 @@
 using System.Data;
 using System.Data.Common;
+using Infrastructure.Seeding.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
+using Respawn;
 using Test.Tools.Extensions;
 using Testcontainers.PostgreSql;
 using Xunit;
@@ -13,6 +15,7 @@ public abstract class DatabaseFixture : IAsyncLifetime
     private const string User = "postgres";
     private const string Password = "postgres";
     private const string Database = "postgres";
+    private Respawner _respawner;
 
     protected DatabaseFixture()
     {
@@ -24,6 +27,7 @@ public abstract class DatabaseFixture : IAsyncLifetime
 
         Connection = null!;
         Provider = null!;
+        _respawner = null!;
     }
 
     public PostgreSqlContainer Container { get; }
@@ -36,6 +40,11 @@ public abstract class DatabaseFixture : IAsyncLifetime
 
         if (wasOpen is false)
             await Connection.OpenAsync();
+
+        await _respawner.ResetAsync(Connection);
+
+        if (wasOpen is false)
+            await Connection.CloseAsync();
     }
 
     public async Task InitializeAsync()
@@ -49,19 +58,30 @@ public abstract class DatabaseFixture : IAsyncLifetime
         await UseProviderAsync(Provider);
 
         Connection = CreateConnection();
-
         var opened = await Connection.TryOpenAsync(default);
-
+        
+        await SeedDatabaseAsync();
+        await InitializeRespawnerAsync();
+        
         if (opened)
         {
             await Connection.CloseAsync();
         }
     }
 
+    private async Task InitializeRespawnerAsync()
+    {
+        _respawner = await Respawner.CreateAsync(Connection, new RespawnerOptions
+        {
+            DbAdapter = DbAdapter.Postgres,
+            SchemasToInclude = new[] { "public" }
+        });
+    }
+
     public virtual async Task DisposeAsync()
     {
         await Connection.DisposeAsync();
-        await Container.DisposeAsync();
+        await Container.StopAsync();
         await Provider.DisposeAsync();
     }
 
@@ -75,6 +95,11 @@ public abstract class DatabaseFixture : IAsyncLifetime
     }
 
     protected virtual Task UseProviderAsync(IServiceProvider provider)
+    {
+        return Task.CompletedTask;
+    }
+
+    protected virtual Task SeedDatabaseAsync()
     {
         return Task.CompletedTask;
     }

@@ -9,41 +9,20 @@ using static Application.Contracts.Customer.Commands.RemoveOrder;
 
 namespace Test.Endpoints.Customers;
 
-[Collection(nameof(WebFactoryCollection))]
-public class RemoveOrderEndpointTests : IAsyncLifetime
+public class RemoveOrderEndpointTests : EndpointTestBase
 {
-    private readonly HttpClient _client;
-    private readonly IDatabaseContext _context;
-    private readonly WebFactory _factory;
-
-    public RemoveOrderEndpointTests(WebFactory factory)
+    public RemoveOrderEndpointTests(WebFactory factory) : base(factory)
     {
-        _factory = factory;
-        _client = factory.CreateClient();
-        _context = factory.Context;
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _factory.ResetAsync();
     }
 
     [Fact]
-    public async Task RemoveOrder_ShouldNotThrow()
+    public async Task RemoveOrder_Should_RemoveSuccessfully()
     {
-        var customer = await _context.Customers
-            .FirstAsync(x => x.OrderHistory.Any());
-
+        var customer = await Database.Customers.FirstAsync(x => x.OrderHistory.Any());
         var order = customer!.OrderHistory.First();
-
         var command = new Command(customer.PersonId, order.OrderId);
 
-        var response = await _client
+        var response = await Client
             .DELETEAsync<Command, EmptyResponse>($"api/customers/{customer.PersonId}/orders/{order.OrderId}", command);
 
         response.Should().NotBeNull();
@@ -51,11 +30,11 @@ public class RemoveOrderEndpointTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task RemoveOrder_ShouldThrow()
+    public async Task RemoveOrder_Should_Throw()
     {
         var command = new Command(Guid.NewGuid(), Guid.NewGuid());
 
-        var response = await _client
+        var response = await Client
             .DELETEAsync<Command, EmptyResponse>($"api/customers/{command.CustomerId}/orders/{command.OrderId}",
                 command);
 

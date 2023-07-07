@@ -2,42 +2,26 @@
 using Application.Handlers.Customers;
 using FluentAssertions;
 using Infrastructure.Seeding.Helpers;
+using Test.Core.ClassData;
 using Test.Core.Fixtures;
 using Xunit;
 using static Application.Contracts.Customer.Queries.GetAllCustomers;
 
 namespace Test.Core.Handlers.Customers;
 
-[Collection(nameof(CoreDatabaseCollectionFixture))]
-public class GetAllCustomersTests : IAsyncLifetime
+public class GetAllCustomersTests : TestBase
 {
-    private readonly CoreDatabaseFixture _database;
     private readonly GetAllCustomersHandler _handler;
 
-    public GetAllCustomersTests(CoreDatabaseFixture database)
+    public GetAllCustomersTests(CoreDatabaseFixture database) : base(database)
     {
-        _database = database;
-        _handler = new GetAllCustomersHandler(_database.Context, new PaginationConfiguration(10));
+        _handler = new GetAllCustomersHandler(database.Context, new PaginationConfiguration(10));
     }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _database.ResetAsync();
-    }
-
+    
     [Theory]
-    [InlineData(1)]
-    [InlineData(2)]
-    [InlineData(3)]
-    [InlineData(4)]
+    [ClassData(typeof(HandlerTestData))]
     public async Task Handler_Should_ReturnNonEmptyPage(int page)
     {
-        await SeedingHelper.SeedDatabaseAsync(_database.Context);
         var query = new Query(page);
 
         var response = await _handler.Handle(query, default);

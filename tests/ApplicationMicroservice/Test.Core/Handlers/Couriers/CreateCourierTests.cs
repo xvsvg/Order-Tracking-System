@@ -7,32 +7,18 @@ using static Application.Contracts.Courier.Commands.CreateCourier;
 
 namespace Test.Core.Handlers.Couriers;
 
-[Collection(nameof(CoreDatabaseCollectionFixture))]
-public class CreateCourierTests : IAsyncLifetime
+public class CreateCourierTests : TestBase
 {
-    private readonly CoreDatabaseFixture _database;
     private readonly CreateCourierHandler _handler;
 
-    public CreateCourierTests(CoreDatabaseFixture database)
+    public CreateCourierTests(CoreDatabaseFixture database) : base(database)
     {
-        _database = database;
-        _handler = new CreateCourierHandler(_database.Context);
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _database.ResetAsync();
+        _handler = new CreateCourierHandler(database.Context);
     }
 
     [Fact]
-    public async Task CreateValidCustomer_ShouldPassValidation_And_BeCreated()
+    public async Task CreateValidCustomer_Should_PassValidation_And_BeCreated()
     {
-        await SeedingHelper.SeedDatabaseAsync(_database.Context);
         var command = new Command(
             "John",
             "Martin",

@@ -10,38 +10,19 @@ using static Application.Contracts.Courier.Queries.GetCourier;
 
 namespace Test.Endpoints.Couriers;
 
-[Collection(nameof(WebFactoryCollection))]
-public class GetCourierEndpointTests : IAsyncLifetime
+public class GetCourierEndpointTests : EndpointTestBase
 {
-    private readonly HttpClient _client;
-    private readonly IDatabaseContext _context;
-    private readonly WebFactory _factory;
-
-    public GetCourierEndpointTests(WebFactory factory)
+    public GetCourierEndpointTests(WebFactory factory) : base(factory)
     {
-        _factory = factory;
-        _client = factory.CreateClient();
-        _context = factory.Context;
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _factory.ResetAsync();
     }
 
     [Fact]
-    public async Task GetCourier_ShouldFind()
+    public async Task GetCourierById_Should_Find()
     {
-        await SeedingHelper.SeedDatabaseAsync(_context);
-        var courier = await _context.Couriers.FirstAsync();
+        var courier = await Database.Couriers.FirstAsync();
         var query = new Query(courier.PersonId);
 
-        var (response, result) = await _client
+        var (response, result) = await Client
             .GETAsync<Query, Response>($"api/couriers/{query.Id}", query);
 
         response.Should().NotBeNull();
@@ -52,12 +33,11 @@ public class GetCourierEndpointTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task GetCourier_ShouldNotFind()
+    public async Task GetCourierById_Should_NotFind()
     {
-        await SeedingHelper.SeedDatabaseAsync(_context);
         var query = new Query(Guid.NewGuid());
 
-        var (response, _) = await _client
+        var (response, _) = await Client
             .GETAsync<Query, Response>($"api/couriers/{query.Id}", query);
 
         response.Should().NotBeNull();

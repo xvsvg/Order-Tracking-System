@@ -10,38 +10,20 @@ using static Application.Contracts.Customer.Commands.DeleteCustomer;
 
 namespace Test.Endpoints.Customers;
 
-[Collection(nameof(WebFactoryCollection))]
-public class DeleteCustomerEndpointTests : IAsyncLifetime
+public class DeleteCustomerEndpointTests : EndpointTestBase
 {
-    private readonly HttpClient _client;
-    private readonly IDatabaseContext _context;
-    private readonly WebFactory _factory;
-
-    public DeleteCustomerEndpointTests(WebFactory factory)
+    public DeleteCustomerEndpointTests(WebFactory factory) : base(factory)
     {
-        _factory = factory;
-        _client = factory.CreateClient();
-        _context = factory.Context;
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _factory.ResetAsync();
     }
 
     [Fact]
-    public async Task DeleteCustomer_ShouldNotThrow()
+    public async Task DeleteCustomer_Should_DeleteSuccessfully()
     {
-        var customer = await _context.Customers.FirstAsync();
+        var customer = await Database.Customers.FirstAsync();
 
         var command = new Command(customer.PersonId);
 
-        var response = await _client
+        var response = await Client
             .DELETEAsync<DeleteCustomerEndpoint, Command>(command);
 
         response.Should().NotBeNull();

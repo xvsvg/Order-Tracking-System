@@ -8,33 +8,19 @@ using static Application.Contracts.Courier.Commands.DeleteCourier;
 
 namespace Test.Core.Handlers.Couriers;
 
-[Collection(nameof(CoreDatabaseCollectionFixture))]
-public class DeleteCourierTests : IAsyncLifetime
+public class DeleteCourierTests : TestBase
 {
-    private readonly CoreDatabaseFixture _database;
     private readonly DeleteCourierHandler _handler;
 
-    public DeleteCourierTests(CoreDatabaseFixture database)
+    public DeleteCourierTests(CoreDatabaseFixture database) : base(database)
     {
-        _database = database;
-        _handler = new DeleteCourierHandler(_database.Context);
+        _handler = new DeleteCourierHandler(database.Context);
     }
 
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
 
-    public Task DisposeAsync()
+    [Fact] public async Task DeleteCustomer_Should_SuccessfullyDelete()
     {
-        return _database.ResetAsync();
-    }
-
-    [Fact]
-    public async Task DeleteCustomer_ShouldNotThrow()
-    {
-        await SeedingHelper.SeedDatabaseAsync(_database.Context);
-        var courier = await _database.Context.Couriers.FirstAsync();
+        var courier = await Database.Context.Couriers.FirstAsync();
         var command = new Command(courier.PersonId);
 
         var response = await _handler.Handle(command, default);

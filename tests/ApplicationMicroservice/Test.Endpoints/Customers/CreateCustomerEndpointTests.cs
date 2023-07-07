@@ -8,30 +8,14 @@ using static Application.Contracts.Customer.Commands.CreateCustomer;
 
 namespace Test.Endpoints.Customers;
 
-[Collection(nameof(WebFactoryCollection))]
-public class CreateCustomerEndpointTests : IAsyncLifetime
+public class CreateCustomerEndpointTests : EndpointTestBase
 {
-    private readonly HttpClient _client;
-    private readonly WebFactory _factory;
-
-    public CreateCustomerEndpointTests(WebFactory factory)
+    public CreateCustomerEndpointTests(WebFactory factory) : base(factory)
     {
-        _factory = factory;
-        _client = factory.CreateClient();
     }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _factory.ResetAsync();
-    }
-
+    
     [Fact]
-    public async Task CreateValidCustomer_ShouldPassValidation()
+    public async Task CreateValidCustomer_Should_PassValidation()
     {
         var command = new Command(
             "John",
@@ -39,7 +23,7 @@ public class CreateCustomerEndpointTests : IAsyncLifetime
             "Doe",
             new[] { "whatever@gmail.com" });
 
-        var (response, result) = await _client
+        var (response, result) = await Client
             .POSTAsync<CreateCustomerEndpoint, Command, Response>(command);
 
         response.Should().NotBeNull();
@@ -51,7 +35,7 @@ public class CreateCustomerEndpointTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task CreateInvalidCustomer_ShouldNotPassValidation()
+    public async Task CreateInvalidCustomer_Should_NotPassValidation()
     {
         var command = new Command(
             "john",
@@ -59,7 +43,7 @@ public class CreateCustomerEndpointTests : IAsyncLifetime
             "do",
             new[] { "whatever@gmail.com" });
 
-        var (response, result) = await _client
+        var (response, result) = await Client
             .POSTAsync<CreateCustomerEndpoint, Command, Response>(command);
 
         response.Should().NotBeNull();
