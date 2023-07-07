@@ -8,34 +8,19 @@ using static Application.Contracts.Customer.Queries.GetCustomer;
 
 namespace Test.Core.Handlers.Couriers;
 
-[Collection(nameof(CoreDatabaseCollectionFixture))]
-public class GetCourierTests : IAsyncLifetime
+public class GetCourierTests : TestBase
 {
-    private readonly CoreDatabaseFixture _database;
     private readonly GetCustomerHandler _handler;
 
-    public GetCourierTests(CoreDatabaseFixture database)
+    public GetCourierTests(CoreDatabaseFixture database) : base(database)
     {
-        _database = database;
-        _handler = new GetCustomerHandler(_database.Context);
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _database.ResetAsync();
+        _handler = new GetCustomerHandler(database.Context);
     }
 
     [Fact]
-    public async Task GetCustomer_ShouldFind()
+    public async Task GetCustomer_Should_Find()
     {
-        await SeedingHelper.SeedDatabaseAsync(_database.Context);
-        var customer = await _database.Context.Customers.FirstAsync();
-
+        var customer = await Database.Context.Customers.FirstAsync();
         var query = new Query(customer.PersonId);
 
         var response = await _handler.Handle(query, default);
@@ -44,10 +29,8 @@ public class GetCourierTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task GetCustomer_ShouldNotFind()
+    public async Task GetCustomer_Should_NotFind()
     {
-        await SeedingHelper.SeedDatabaseAsync(_database.Context);
-
         var query = new Query(Guid.NewGuid());
 
         var response = await _handler.Handle(query, default);
