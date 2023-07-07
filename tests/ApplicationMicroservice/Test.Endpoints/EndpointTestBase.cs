@@ -9,7 +9,7 @@ public class EndpointTestBase : IAsyncLifetime
 {
     protected readonly HttpClient Client;
     protected readonly IDatabaseContext Database;
-    protected readonly Func<Task> Reset;
+    private readonly Func<Task> Reset;
 
     protected EndpointTestBase(WebFactory factory)
     {
