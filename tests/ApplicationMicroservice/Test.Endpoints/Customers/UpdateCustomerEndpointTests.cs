@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Application.DataAccess.Contracts;
+using Domain.Core.Implementations;
 using FastEndpoints;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
@@ -10,43 +11,28 @@ using static Application.Contracts.Customer.Commands.UpdateCustomer;
 
 namespace Test.Endpoints.Customers;
 
-[Collection(nameof(WebFactoryCollection))]
-public class UpdateCustomerEndpointTests : IAsyncLifetime
+public class UpdateCustomerEndpointTests : EndpointTestBase
 {
-    private readonly HttpClient _client;
-    private readonly IDatabaseContext _context;
-    private readonly WebFactory _factory;
+    private readonly Customer _customer;
 
-    public UpdateCustomerEndpointTests(WebFactory factory)
+    public UpdateCustomerEndpointTests(WebFactory factory) : base(factory)
     {
-        _factory = factory;
-        _client = _factory.CreateClient();
-        _context = factory.Context;
-    }
+        var proxy = new Lazy<Task<Customer>>(async () => await Database.Customers.FirstAsync());
 
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _factory.ResetAsync();
+        _customer = proxy.Value.Result;
     }
 
     [Fact]
     public async Task UpdateCustomer_ShouldPassValidation()
     {
-        var customer = await _context.Customers.FirstAsync();
-
         var command = new Command(
-            customer.PersonId,
+            _customer.PersonId,
             "John",
             "Martin",
             "Doe",
-            customer.ContactInfo.Select(x => x.Contact));
+            _customer.ContactInfo.Select(x => x.Contact));
 
-        var (response, result) = await _client
+        var (response, result) = await Client
             .PUTAsync<UpdateCustomerEndpoint, Command, Response>(command);
 
         response.Should().NotBeNull();
@@ -56,16 +42,14 @@ public class UpdateCustomerEndpointTests : IAsyncLifetime
     [Fact]
     public async Task UpdateCustomer_ShouldNotPassValidation()
     {
-        var customer = await _context.Customers.FirstAsync();
-
         var command = new Command(
-            customer.PersonId,
+            _customer.PersonId,
             "john",
             "Mart1n",
             "Do",
-            customer.ContactInfo.Select(x => x.Contact));
+            _customer.ContactInfo.Select(x => x.Contact));
 
-        var (response, result) = await _client
+        var (response, result) = await Client
             .PUTAsync<UpdateCustomerEndpoint, Command, Response>(command);
 
         response.Should().NotBeNull();

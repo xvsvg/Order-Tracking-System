@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Application.DataAccess.Contracts;
+using Domain.Core.Implementations;
 using FastEndpoints;
 using FluentAssertions;
 using Infrastructure.Seeding.Helpers;
@@ -10,55 +11,39 @@ using static Application.Contracts.Customer.Queries.GetCustomer;
 
 namespace Test.Endpoints.Customers;
 
-[Collection(nameof(WebFactoryCollection))]
-public class GetCustomerEndpointTests : IAsyncLifetime
+public class GetCustomerEndpointTests : EndpointTestBase
 {
-    private readonly HttpClient _client;
-    private readonly IDatabaseContext _context;
-    private readonly WebFactory _factory;
+    private readonly Customer _customer;
 
-    public GetCustomerEndpointTests(WebFactory factory)
+    public GetCustomerEndpointTests(WebFactory factory) : base(factory)
     {
-        _factory = factory;
-        _client = factory.CreateClient();
-        _context = factory.Context;
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _factory.ResetAsync();
+        var proxy = new Lazy<Task<Customer>>(async () =>
+            await Database.Customers.FirstAsync());
+        
+        _customer = proxy.Value.Result;
     }
 
     [Fact]
     public async Task GetCustomerById_Should_Find()
     {
-        await SeedingHelper.SeedDatabaseAsync(_context);
-        var customer = await _context.Customers.FirstAsync();
-        var query = new Query(customer.PersonId);
+        var query = new Query(_customer.PersonId);
 
-        var (response, result) = await _client
+        var (response, result) = await Client
             .GETAsync<Query, Response>($"api/customers/{query.Id}", query);
 
         response.Should().NotBeNull();
         response!.StatusCode.Should().Be(HttpStatusCode.OK);
         result.Should().NotBeNull();
         result!.Customer.Should().NotBeNull();
-        result!.Customer!.Id.Should().Be(customer.PersonId);
+        result!.Customer!.Id.Should().Be(_customer.PersonId);
     }
 
     [Fact]
     public async Task GetCustomerById_Should_NotFind()
     {
-        await SeedingHelper.SeedDatabaseAsync(_context);
-        var customer = await _context.Customers.FirstAsync();
         var query = new Query(Guid.NewGuid());
 
-        var (response, result) = await _client
+        var (response, result) = await Client
             .GETAsync<Query, Response>($"api/customers/{query.Id}", query);
 
         response.Should().NotBeNull();

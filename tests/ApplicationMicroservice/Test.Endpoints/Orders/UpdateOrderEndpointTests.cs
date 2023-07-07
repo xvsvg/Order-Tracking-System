@@ -14,15 +14,14 @@ namespace Test.Endpoints.Orders;
 
 public class UpdateOrderEndpointTests : EndpointTestBase
 {
-    private readonly Lazy<Task<Order>> _orderProxy;
     private readonly Order _order;
 
     public UpdateOrderEndpointTests(WebFactory factory) : base(factory)
     {
-        _orderProxy = new Lazy<Task<Order>>(async () =>
+        var proxy = new Lazy<Task<Order>>(async () =>
             await Database.Orders.FirstAsync());
 
-        _order = _orderProxy.Value.Result;
+        _order = proxy.Value.Result;
     }
 
     [Fact]
