@@ -30,6 +30,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{164FCEE3-67CC-41C9-97DB-3E381CB39326}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApplicationMicroservice", "ApplicationMicroservice", "{26C6F8BD-899A-4A67-BC7C-4E8E60C52E13}"
+	ProjectSection(SolutionItems) = preProject
+		tests\ApplicationMicroservice\stress-test.js = tests\ApplicationMicroservice\stress-test.js
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{F6512897-A15D-4CB7-BBD3-FEA5281A02A8}"
 EndProject
