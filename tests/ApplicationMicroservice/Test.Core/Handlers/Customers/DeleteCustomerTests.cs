@@ -8,33 +8,19 @@ using static Application.Contracts.Customer.Commands.DeleteCustomer;
 
 namespace Test.Core.Handlers.Customers;
 
-[Collection(nameof(CoreDatabaseCollectionFixture))]
-public class DeleteCustomerTests : IAsyncLifetime
+public class DeleteCustomerTests : TestBase
 {
-    private readonly CoreDatabaseFixture _database;
     private readonly DeleteCustomerHandler _handler;
 
-    public DeleteCustomerTests(CoreDatabaseFixture database)
+    public DeleteCustomerTests(CoreDatabaseFixture database) : base(database)
     {
-        _database = database;
-        _handler = new DeleteCustomerHandler(_database.Context);
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _database.ResetAsync();
+        _handler = new DeleteCustomerHandler(database.Context);
     }
 
     [Fact]
-    public async Task DeleteCustomer_ShouldNotThrow()
+    public async Task DeleteCustomer_Should_SuccessfullyDelete()
     {
-        await SeedingHelper.SeedDatabaseAsync(_database.Context);
-        var customer = await _database.Context.Customers.FirstAsync();
+        var customer = await Database.Context.Customers.FirstAsync();
         var command = new Command(customer.PersonId);
 
         var response = await _handler.Handle(command, default);

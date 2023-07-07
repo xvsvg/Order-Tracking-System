@@ -7,32 +7,18 @@ using static Application.Contracts.Customer.Commands.CreateCustomer;
 
 namespace Test.Core.Handlers.Customers;
 
-[Collection(nameof(CoreDatabaseCollectionFixture))]
-public class CreateCustomerTests : IAsyncLifetime
+public class CreateCustomerTests : TestBase
 {
-    private readonly CoreDatabaseFixture _database;
     private readonly CreateCustomerHandler _handler;
 
-    public CreateCustomerTests(CoreDatabaseFixture database)
+    public CreateCustomerTests(CoreDatabaseFixture database) : base(database)
     {
-        _database = database;
-        _handler = new CreateCustomerHandler(_database.Context);
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task DisposeAsync()
-    {
-        return _database.ResetAsync();
+        _handler = new CreateCustomerHandler(database.Context);
     }
 
     [Fact]
-    public async Task CreateValidCustomer_ShouldPassValidation_And_BeCreated()
+    public async Task CreateValidCustomer_Should_PassValidation_And_BeCreated()
     {
-        await SeedingHelper.SeedDatabaseAsync(_database.Context);
         var command = new Command(
             "John",
             "Martin",
