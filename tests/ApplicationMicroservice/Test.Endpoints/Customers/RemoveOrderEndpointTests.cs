@@ -16,7 +16,7 @@ public class RemoveOrderEndpointTests : EndpointTestBase
     }
 
     [Fact]
-    public async Task RemoveOrder_ShouldNotThrow()
+    public async Task RemoveOrder_Should_RemoveSuccessfully()
     {
         var customer = await Database.Customers.FirstAsync(x => x.OrderHistory.Any());
         var order = customer!.OrderHistory.First();
@@ -30,7 +30,7 @@ public class RemoveOrderEndpointTests : EndpointTestBase
     }
 
     [Fact]
-    public async Task RemoveOrder_ShouldThrow()
+    public async Task RemoveOrder_Should_Throw()
     {
         var command = new Command(Guid.NewGuid(), Guid.NewGuid());
 

@@ -17,7 +17,7 @@ public class DeleteCustomerEndpointTests : EndpointTestBase
     }
 
     [Fact]
-    public async Task DeleteCustomer_Should_NotThrow()
+    public async Task DeleteCustomer_Should_DeleteSuccessfully()
     {
         var customer = await Database.Customers.FirstAsync();
 

@@ -23,7 +23,7 @@ public class UpdateCustomerEndpointTests : EndpointTestBase
     }
 
     [Fact]
-    public async Task UpdateCustomer_ShouldPassValidation()
+    public async Task UpdateCustomer_Should_PassValidation()
     {
         var command = new Command(
             _customer.PersonId,
@@ -40,7 +40,7 @@ public class UpdateCustomerEndpointTests : EndpointTestBase
     }
 
     [Fact]
-    public async Task UpdateCustomer_ShouldNotPassValidation()
+    public async Task UpdateCustomer_Should_NotPassValidation()
     {
         var command = new Command(
             _customer.PersonId,
