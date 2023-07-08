@@ -2,8 +2,8 @@
 
 public class CacheConfiguration
 {
-    public CacheConfiguration(int time)
-        => TimeInSeconds = time;
+    public CacheConfiguration(int timeInSeconds)
+        => TimeInSeconds = timeInSeconds;
     
     public int TimeInSeconds { get; init; }
 }

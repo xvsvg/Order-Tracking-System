@@ -2,8 +2,8 @@
 
 public class PaginationConfiguration
 {
-    public PaginationConfiguration(int size)
-        => PageSize = size;
+    public PaginationConfiguration(int pageSize)
+        => PageSize = pageSize;
     
     public int PageSize { get; init; }
 }

@@ -59,6 +59,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k6", "k6", "{C20833BE-AA86-
 		tests\ApplicationMicroservice\stress-test.js = tests\ApplicationMicroservice\stress-test.js
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.WebAPI", "Presentation.WebAPI\Presentation.WebAPI.csproj", "{1C32DE1B-BA98-44E3-95DB-0F240B551CD1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -137,6 +139,10 @@ Global
 		{21B3D344-DDA3-4E19-96C2-8B337B216A77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21B3D344-DDA3-4E19-96C2-8B337B216A77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21B3D344-DDA3-4E19-96C2-8B337B216A77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C32DE1B-BA98-44E3-95DB-0F240B551CD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C32DE1B-BA98-44E3-95DB-0F240B551CD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C32DE1B-BA98-44E3-95DB-0F240B551CD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C32DE1B-BA98-44E3-95DB-0F240B551CD1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -165,5 +171,6 @@ Global
 		{6246EA26-7998-41E7-89B7-F02E05AD1B66} = {F3A3D2EC-EBFA-4E9F-BE05-31DA0FBCC711}
 		{21B3D344-DDA3-4E19-96C2-8B337B216A77} = {59AD4ED7-C4E9-4E9D-A7BF-A8906485C828}
 		{C20833BE-AA86-4676-A73D-0DD318C2F1BB} = {26C6F8BD-899A-4A67-BC7C-4E8E60C52E13}
+		{1C32DE1B-BA98-44E3-95DB-0F240B551CD1} = {F6512897-A15D-4CB7-BBD3-FEA5281A02A8}
 	EndGlobalSection
 EndGlobal
