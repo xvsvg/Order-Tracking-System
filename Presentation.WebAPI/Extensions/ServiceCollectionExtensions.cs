@@ -1,6 +1,7 @@
 ﻿using Application.Handlers.Extensions;
 using Application.Middlewares.Extensions;
 using Application.Validation.Extensions;
+using Infrastructure.DataAccess.Configuration;
 using Infrastructure.DataAccess.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Presentation.Endpoints.Extensions;
@@ -12,15 +13,19 @@ internal static class ServiceCollectionExtensions
 {
     public static IServiceCollection ConfigureServices(
         this IServiceCollection collection,
-        IConfiguration configuration,
-        WebApiConfiguration webApiConfiguration)
+        IConfiguration configuration)
     {
+        var postgresConfiguration = configuration
+            .GetSection("PostgresConfiguration")
+            .Get<PostgresConfiguration>()
+            ?? throw new Exception("Unable to define database configuration.");
+        
         collection.AddDatabaseContext(o =>
-            o.UseNpgsql(webApiConfiguration.PostgresConfiguration.ToConnectionString("ots"))
+            o.UseNpgsql(postgresConfiguration.ToConnectionString("ots"))
                 .UseLazyLoadingProxies());
 
         collection.AddHealthChecks()
-            .AddNpgSql(webApiConfiguration.PostgresConfiguration.ToConnectionString("ots"));
+            .AddNpgSql(postgresConfiguration.ToConnectionString("ots"));
 
         collection.AddHandlers(configuration)
             .AddEndpoints(configuration)
