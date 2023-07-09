@@ -1,14 +1,22 @@
 version: "3.9"
 
 services:
-  postgres:
+  database:
     volumes:
         - "./init.sql:/docker-entrypoint-initdb.d/init.sql"
     environment:
-        POSTGRES_DB: "postgres"
-        POSTGRES_USER: "postgres"
-        POSTGRES_PASSWORD: "postgres"
+        POSTGRES_DB: postgres
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
     container_name: ots-database
     image: postgres:latest
     ports:
-      - "1433:5432"
+      - "5432:5432"
+  
+  vault:
+    image: vault:1.13.3
+    environment:
+      - VAULT_DEV_ROOT_TOKEN_ID=716E23F4-F3EC-4223-BEEF-4C188640B015
+    container_name: vault
+    ports:
+      - "8200:8200"
