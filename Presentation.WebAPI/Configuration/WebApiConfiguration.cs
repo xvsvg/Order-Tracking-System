@@ -5,23 +5,24 @@ namespace Presentation.WebAPI.Configuration;
 
 public class WebApiConfiguration
 {
-    public WebApiConfiguration(IConfiguration configuration)
+    public WebApiConfiguration(IConfiguration configuration, IWebHostEnvironment environment)
     {
-        var postgresConfiguration = configuration
-            .GetSection("PostgresConfiguration")
-            .Get<PostgresConfiguration>();
-
-        PostgresConfiguration = postgresConfiguration
-                                ?? throw new ArgumentException(nameof(PostgresConfiguration));
-
         var paginationConfiguration = configuration
             .GetSection("Pagination")
             .Get<PaginationConfiguration>();
 
         PaginationConfiguration = paginationConfiguration
                                   ?? throw new ArgumentException(nameof(PaginationConfiguration));
+
+        var vaultToken = configuration
+            .GetValue<string>("Vault:Token");
+
+        VaultToken = vaultToken ?? string.Empty;
+
+        ASPNETCORE_ENVIRONMENT = environment.EnvironmentName;
     }
 
-    public PostgresConfiguration PostgresConfiguration { get; }
     public PaginationConfiguration PaginationConfiguration { get; }
+    public string VaultToken { get; }
+    public string ASPNETCORE_ENVIRONMENT { get; }
 }
