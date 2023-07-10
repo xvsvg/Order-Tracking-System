@@ -1,13 +1,11 @@
 ﻿using System.Net;
+using Application.Contracts.Order.Commands;
 using FastEndpoints;
 using FluentAssertions;
-using Infrastructure.DataAccess.DatabaseContexts;
-using Infrastructure.Seeding.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Presentation.Endpoints.Order;
 using Test.Endpoints.Fixtures;
 using Xunit;
-using static Application.Contracts.Order.Commands.UpdateOrder;
 using Order = Domain.Core.Implementations.Order;
 
 namespace Test.Endpoints.Orders;
@@ -27,7 +25,7 @@ public class UpdateOrderEndpointTests : EndpointTestBase
     [Fact]
     public async Task UpdateOrder_Should_PassValidation()
     {
-        var command = new Command(
+        var command = new UpdateOrder.Command(
             _order.OrderId,
             "New",
             _order.DispatchDate,
@@ -36,7 +34,7 @@ public class UpdateOrderEndpointTests : EndpointTestBase
             _order.Customer.PersonId);
 
         var (response, result) = await Client
-            .PUTAsync<UpdateOrderEndpoint, Command, Response>(command);
+            .PUTAsync<UpdateOrderEndpoint, UpdateOrder.Command, UpdateOrder.Response>(command);
 
         response.Should().NotBeNull();
         response!.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -47,7 +45,7 @@ public class UpdateOrderEndpointTests : EndpointTestBase
     [Fact]
     public async Task UpdateOrder_Should_NotPassValidation()
     {
-        var command = new Command(
+        var command = new UpdateOrder.Command(
             _order.OrderId,
             "sa",
             _order.DispatchDate,
@@ -56,7 +54,7 @@ public class UpdateOrderEndpointTests : EndpointTestBase
             _order.Customer.PersonId);
 
         var (response, _) = await Client
-            .PUTAsync<UpdateOrderEndpoint, Command, Response>(command);
+            .PUTAsync<UpdateOrderEndpoint, UpdateOrder.Command, UpdateOrder.Response>(command);
 
         response.Should().NotBeNull();
         response!.StatusCode.Should().Be(HttpStatusCode.BadRequest);

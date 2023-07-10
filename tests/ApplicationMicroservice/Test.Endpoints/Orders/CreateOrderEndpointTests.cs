@@ -1,15 +1,12 @@
 ﻿using System.Net;
-using Application.DataAccess.Contracts;
+using Application.Contracts.Order.Commands;
 using Domain.Core.Implementations;
 using FastEndpoints;
 using FluentAssertions;
-using Infrastructure.DataAccess.DatabaseContexts;
-using Infrastructure.Seeding.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Presentation.Endpoints.Order;
 using Test.Endpoints.Fixtures;
 using Xunit;
-using static Application.Contracts.Order.Commands.CreateOrder;
 
 namespace Test.Endpoints.Orders;
 
@@ -26,7 +23,7 @@ public class CreateOrderEndpointTests : EndpointTestBase
     [Fact]
     public async Task CreateValidOrder_Should_PassValidation()
     {
-        var command = new Command(
+        var command = new CreateOrder.Command(
             "Whatever",
             DateTime.UtcNow.AddDays(1),
             DateTime.UtcNow.AddDays(2),
@@ -34,7 +31,7 @@ public class CreateOrderEndpointTests : EndpointTestBase
             _customer.Value.Result.PersonId);
 
         var (response, result) = await Client
-            .POSTAsync<CreateOrderEndpoint, Command, Response>(command);
+            .POSTAsync<CreateOrderEndpoint, CreateOrder.Command, CreateOrder.Response>(command);
 
         response.Should().NotBeNull();
         response!.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -47,7 +44,7 @@ public class CreateOrderEndpointTests : EndpointTestBase
     [Fact]
     public async Task CreateInvalidOrder_Should_NotPassValidation()
     {
-        var command = new Command(
+        var command = new CreateOrder.Command(
             "djsklajd123jilkfg[",
             DateTime.UtcNow,
             DateTime.UtcNow,
@@ -55,7 +52,7 @@ public class CreateOrderEndpointTests : EndpointTestBase
             _customer.Value.Result.PersonId);
 
         var (response, result) = await Client
-            .POSTAsync<CreateOrderEndpoint, Command, Response>(command);
+            .POSTAsync<CreateOrderEndpoint, CreateOrder.Command, CreateOrder.Response>(command);
 
         response.Should().NotBeNull();
         response!.StatusCode.Should().Be(HttpStatusCode.BadRequest);

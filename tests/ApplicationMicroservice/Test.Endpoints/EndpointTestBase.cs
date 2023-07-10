@@ -17,10 +17,14 @@ public class EndpointTestBase : IAsyncLifetime
         Database = factory.Context;
         Reset = factory.ResetAsync;
     }
-    
+
     public Task InitializeAsync()
-        => Task.CompletedTask;
+    {
+        return Task.CompletedTask;
+    }
 
     public Task DisposeAsync()
-        => Reset();
+    {
+        return Reset();
+    }
 }

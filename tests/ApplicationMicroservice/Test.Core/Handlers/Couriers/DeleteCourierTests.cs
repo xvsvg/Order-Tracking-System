@@ -1,10 +1,9 @@
-﻿using Application.Handlers.Couriers;
+﻿using Application.Contracts.Courier.Commands;
+using Application.Handlers.Couriers;
 using FluentAssertions;
-using Infrastructure.Seeding.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Test.Core.Fixtures;
 using Xunit;
-using static Application.Contracts.Courier.Commands.DeleteCourier;
 
 namespace Test.Core.Handlers.Couriers;
 
@@ -18,10 +17,11 @@ public class DeleteCourierTests : TestBase
     }
 
 
-    [Fact] public async Task DeleteCustomer_Should_SuccessfullyDelete()
+    [Fact]
+    public async Task DeleteCourier_Should_SuccessfullyDelete()
     {
         var courier = await Database.Context.Couriers.FirstAsync();
-        var command = new Command(courier.PersonId);
+        var command = new DeleteCourier.Command(courier.PersonId);
 
         var response = await _handler.Handle(command, default);
 

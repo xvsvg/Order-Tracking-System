@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using Application.DataAccess.Contracts;
+using Application.Contracts.Courier.Commands;
 using Domain.Core.Implementations;
 using FastEndpoints;
 using FluentAssertions;
@@ -7,13 +7,13 @@ using Microsoft.EntityFrameworkCore;
 using Presentation.Endpoints.Couriers;
 using Test.Endpoints.Fixtures;
 using Xunit;
-using static Application.Contracts.Courier.Commands.UpdateCourier;
 
 namespace Test.Endpoints.Couriers;
 
 public class UpdateCourierEndpointTests : EndpointTestBase
 {
     private readonly Courier _courier;
+
     public UpdateCourierEndpointTests(WebFactory factory) : base(factory)
     {
         var proxy = new Lazy<Task<Courier>>(async () => await Database.Couriers.FirstAsync());
@@ -22,9 +22,9 @@ public class UpdateCourierEndpointTests : EndpointTestBase
     }
 
     [Fact]
-    public async Task UpdateCustomer_Should_PassValidation()
+    public async Task UpdateCourier_Should_PassValidation()
     {
-        var command = new Command(
+        var command = new UpdateCourier.Command(
             _courier.PersonId,
             "John",
             "Martin",
@@ -32,16 +32,16 @@ public class UpdateCourierEndpointTests : EndpointTestBase
             _courier.ContactInfo.Select(x => x.Contact));
 
         var (response, result) = await Client
-            .PUTAsync<UpdateCourierEndpoint, Command, Response>(command);
+            .PUTAsync<UpdateCourierEndpoint, UpdateCourier.Command, UpdateCourier.Response>(command);
 
         response.Should().NotBeNull();
         response!.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
     [Fact]
-    public async Task UpdateCustomer_Should_NotPassValidation()
+    public async Task UpdateCourier_Should_NotPassValidation()
     {
-        var command = new Command(
+        var command = new UpdateCourier.Command(
             _courier.PersonId,
             "john",
             "Mart1n",
@@ -49,7 +49,7 @@ public class UpdateCourierEndpointTests : EndpointTestBase
             _courier.ContactInfo.Select(x => x.Contact));
 
         var (response, result) = await Client
-            .PUTAsync<UpdateCourierEndpoint, Command, Response>(command);
+            .PUTAsync<UpdateCourierEndpoint, UpdateCourier.Command, UpdateCourier.Response>(command);
 
         response.Should().NotBeNull();
         response!.StatusCode.Should().Be(HttpStatusCode.BadRequest);

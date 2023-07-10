@@ -1,10 +1,9 @@
-﻿using Application.Handlers.Customers;
+﻿using Application.Contracts.Customer.Commands;
+using Application.Handlers.Customers;
 using FluentAssertions;
-using Infrastructure.Seeding.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Test.Core.Fixtures;
 using Xunit;
-using static Application.Contracts.Customer.Commands.UpdateCustomer;
 
 namespace Test.Core.Handlers.Customers;
 
@@ -21,7 +20,7 @@ public class UpdateCustomerTests : TestBase
     public async Task UpdateCustomer_Should_NotThrow()
     {
         var customer = await Database.Context.Customers.FirstAsync();
-        var command = new Command(
+        var command = new UpdateCustomer.Command(
             customer.PersonId,
             "John",
             "Martin",

@@ -1,10 +1,9 @@
-﻿using Application.Handlers.Customers;
+﻿using Application.Contracts.Customer.Commands;
+using Application.Handlers.Customers;
 using FluentAssertions;
-using Infrastructure.Seeding.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Test.Core.Fixtures;
 using Xunit;
-using static Application.Contracts.Customer.Commands.RemoveOrder;
 
 namespace Test.Core.Handlers.Customers;
 
@@ -22,7 +21,7 @@ public class RemoveOrderTests : TestBase
     {
         var customer = await Database.Context.Customers.FirstOrDefaultAsync(x => x.OrderHistory.Any());
         var order = customer!.OrderHistory.First();
-        var command = new Command(customer.PersonId, order.OrderId);
+        var command = new RemoveOrder.Command(customer.PersonId, order.OrderId);
 
         var response = await _handler.Handle(command, default);
 

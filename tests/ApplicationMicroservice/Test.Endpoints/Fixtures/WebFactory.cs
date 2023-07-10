@@ -1,8 +1,8 @@
 ﻿using System.Data;
 using System.Data.Common;
-using Application.Handlers;
 using Application.Validation.Extensions;
 using FastEndpoints;
+using Infrastructure.DataAccess;
 using Infrastructure.DataAccess.DatabaseContexts;
 using Infrastructure.Seeding.Helpers;
 using Microsoft.AspNetCore.Hosting;
@@ -59,7 +59,7 @@ public class WebFactory : WebApplicationFactory<IDevelopmentEnvironmentMarker>, 
 
     public async Task ResetAsync()
     {
-        bool opened = Connection.State is ConnectionState.Open;
+        var opened = Connection.State is ConnectionState.Open;
         Context.ChangeTracker.Clear();
 
         if (opened is false)

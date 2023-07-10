@@ -1,12 +1,11 @@
 ﻿using System.Net;
-using Application.DataAccess.Contracts;
+using Application.Contracts.Customer.Commands;
 using FastEndpoints;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Presentation.Endpoints.Customers;
 using Test.Endpoints.Fixtures;
 using Xunit;
-using static Application.Contracts.Customer.Commands.DeleteCustomer;
 
 namespace Test.Endpoints.Customers;
 
@@ -21,10 +20,10 @@ public class DeleteCustomerEndpointTests : EndpointTestBase
     {
         var customer = await Database.Customers.FirstAsync();
 
-        var command = new Command(customer.PersonId);
+        var command = new DeleteCustomer.Command(customer.PersonId);
 
         var response = await Client
-            .DELETEAsync<DeleteCustomerEndpoint, Command>(command);
+            .DELETEAsync<DeleteCustomerEndpoint, DeleteCustomer.Command>(command);
 
         response.Should().NotBeNull();
         response!.StatusCode.Should().Be(HttpStatusCode.NoContent);

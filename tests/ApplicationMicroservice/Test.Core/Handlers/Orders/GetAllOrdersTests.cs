@@ -1,10 +1,10 @@
-﻿using Application.Contracts.Tools;
+﻿using Application.Contracts.Order.Queries;
+using Application.Contracts.Tools;
 using Application.Handlers.Orders;
 using FluentAssertions;
 using Test.Core.ClassData;
 using Test.Core.Fixtures;
 using Xunit;
-using static Application.Contracts.Order.Queries.GetAllOrders;
 
 namespace Test.Core.Handlers.Orders;
 
@@ -21,7 +21,7 @@ public class GetAllOrdersTests : TestBase
     [ClassData(typeof(HandlerTestData))]
     public async Task Handle_Should_ReturnNonEmptyPage(int page)
     {
-        var query = new Query(page);
+        var query = new GetAllOrders.Query(page);
 
         var response = await _handler.Handle(query, default);
 

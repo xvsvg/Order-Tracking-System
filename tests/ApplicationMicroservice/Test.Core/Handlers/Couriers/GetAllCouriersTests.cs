@@ -1,11 +1,10 @@
-﻿using Application.Contracts.Tools;
+﻿using Application.Contracts.Courier.Queries;
+using Application.Contracts.Tools;
 using Application.Handlers.Couriers;
 using FluentAssertions;
-using Infrastructure.Seeding.Helpers;
 using Test.Core.ClassData;
 using Test.Core.Fixtures;
 using Xunit;
-using static Application.Contracts.Courier.Queries.GetAllCouriers;
 
 namespace Test.Core.Handlers.Couriers;
 
@@ -22,7 +21,7 @@ public class GetAllCouriersTests : TestBase
     [ClassData(typeof(HandlerTestData))]
     public async Task Handle_Should_ReturnNonEmptyPage(int page)
     {
-        var query = new Query(page);
+        var query = new GetAllCouriers.Query(page);
 
         var response = await _handler.Handle(query, default);
 

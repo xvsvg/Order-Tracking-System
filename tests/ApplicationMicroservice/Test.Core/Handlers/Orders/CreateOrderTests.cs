@@ -1,10 +1,9 @@
-﻿using Application.Handlers.Orders;
+﻿using Application.Contracts.Order.Commands;
+using Application.Handlers.Orders;
 using FluentAssertions;
-using Infrastructure.Seeding.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Test.Core.Fixtures;
 using Xunit;
-using static Application.Contracts.Order.Commands.CreateOrder;
 
 namespace Test.Core.Handlers.Orders;
 
@@ -16,13 +15,13 @@ public class CreateOrderTests : TestBase
     {
         _handler = new CreateOrderHandler(database.Context);
     }
-    
+
     [Fact]
     public async Task CreateValidOrder_Should_PassValidation_And_BeCreated()
     {
         var customer = await Database.Context.Customers.FirstAsync();
         var courier = await Database.Context.Couriers.FirstAsync();
-        var command = new Command(
+        var command = new CreateOrder.Command(
             "Whatever",
             DateTime.UtcNow,
             DateTime.UtcNow.AddDays(2),
@@ -44,7 +43,7 @@ public class CreateOrderTests : TestBase
     [Fact]
     public async Task CreateInvalidOrder_Should_NotPassValidation()
     {
-        var command = new Command(
+        var command = new CreateOrder.Command(
             "123asdas",
             DateTime.MinValue,
             null,

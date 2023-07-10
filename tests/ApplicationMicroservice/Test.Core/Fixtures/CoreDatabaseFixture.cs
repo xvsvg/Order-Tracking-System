@@ -9,14 +9,14 @@ namespace Test.Core.Fixtures;
 
 public class CoreDatabaseFixture : DatabaseFixture
 {
+    public DatabaseContext Context { get; private set; } = null!;
+    public AsyncServiceScope Scope { get; private set; }
+
     protected override void ConfigureServices(IServiceCollection collection)
     {
         collection.AddDatabaseContext(x =>
             x.UseLazyLoadingProxies().UseNpgsql(Container.GetConnectionString()));
     }
-
-    public DatabaseContext Context { get; private set; } = null!;
-    public AsyncServiceScope Scope { get; private set; } = default;
 
     public override async Task ResetAsync()
     {
@@ -24,6 +24,7 @@ public class CoreDatabaseFixture : DatabaseFixture
         Context.ChangeTracker.Clear();
         await SeedingHelper.SeedDatabaseAsync(Context);
     }
+
     public override async Task DisposeAsync()
     {
         await base.DisposeAsync();
@@ -43,7 +44,7 @@ public class CoreDatabaseFixture : DatabaseFixture
 
         return Task.CompletedTask;
     }
-    
+
     protected override async Task SeedDatabaseAsync()
     {
         await SeedingHelper.SeedDatabaseAsync(Context);

@@ -6,12 +6,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FluentAssertions" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" />
-        <PackageReference Include="Respawn" />
-        <PackageReference Include="Testcontainers.PostgreSql" />
-        <PackageReference Include="xunit" />
+        <PackageReference Include="FluentAssertions"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk"/>
+        <PackageReference Include="Respawn"/>
+        <PackageReference Include="Testcontainers.PostgreSql"/>
+        <PackageReference Include="xunit"/>
         <PackageReference Include="xunit.runner.visualstudio">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
@@ -23,11 +23,15 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\src\Application\Application.Contracts\Application.Contracts.csproj" />
-      <ProjectReference Include="..\..\..\src\Application\Application.Handlers\Application.Handlers.csproj" />
-      <ProjectReference Include="..\..\..\src\Infrastructure\Infrastructure.Mapping\Infrastructure.Mapping.csproj" />
-      <ProjectReference Include="..\..\..\src\Infrastructure\Infrastructure.Seeding\Infrastructure.Seeding.csproj" />
-      <ProjectReference Include="..\Test.Tools\Test.Tools.csproj" />
+        <ProjectReference Include="..\..\..\src\ApplicationMicroservice\Application\Application.Contracts\Application.Contracts.csproj"/>
+        <ProjectReference Include="..\..\..\src\ApplicationMicroservice\Application\Application.DataAccess.Contracts\Application.DataAccess.Contracts.csproj"/>
+        <ProjectReference Include="..\..\..\src\ApplicationMicroservice\Application\Application.Dto\Application.Dto.csproj"/>
+        <ProjectReference Include="..\..\..\src\ApplicationMicroservice\Application\Application.Handlers\Application.Handlers.csproj"/>
+        <ProjectReference Include="..\..\..\src\ApplicationMicroservice\Domain\Domain.Core\Domain.Core.csproj"/>
+        <ProjectReference Include="..\..\..\src\ApplicationMicroservice\Infrastructure\Infrastructure.DataAccess\Infrastructure.DataAccess.csproj"/>
+        <ProjectReference Include="..\..\..\src\ApplicationMicroservice\Infrastructure\Infrastructure.Mapping\Infrastructure.Mapping.csproj"/>
+        <ProjectReference Include="..\..\..\src\ApplicationMicroservice\Infrastructure\Infrastructure.Seeding\Infrastructure.Seeding.csproj"/>
+        <ProjectReference Include="..\Test.Tools\Test.Tools.csproj"/>
     </ItemGroup>
 
 </Project>

@@ -1,10 +1,9 @@
-﻿using Application.Handlers.Couriers;
+﻿using Application.Contracts.Courier.Commands;
+using Application.Handlers.Couriers;
 using FluentAssertions;
-using Infrastructure.Seeding.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Test.Core.Fixtures;
 using Xunit;
-using static Application.Contracts.Courier.Commands.UpdateCourier;
 
 namespace Test.Core.Handlers.Couriers;
 
@@ -18,10 +17,10 @@ public class UpdateCourierTests : TestBase
     }
 
     [Fact]
-    public async Task UpdateCustomer_Should_NotThrow()
+    public async Task UpdateCourier_Should_NotThrow()
     {
         var courier = await Database.Context.Couriers.FirstAsync();
-        var command = new Command(
+        var command = new UpdateCourier.Command(
             courier.PersonId,
             "John",
             "Martin",

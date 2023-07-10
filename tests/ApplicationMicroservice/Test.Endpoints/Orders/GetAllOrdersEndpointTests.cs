@@ -1,10 +1,10 @@
 ﻿using System.Net;
+using Application.Contracts.Order.Queries;
 using FastEndpoints;
 using FluentAssertions;
 using Test.Endpoints.ClassData;
 using Test.Endpoints.Fixtures;
 using Xunit;
-using static Application.Contracts.Order.Queries.GetAllOrders;
 
 namespace Test.Endpoints.Orders;
 
@@ -18,10 +18,10 @@ public class GetAllOrdersEndpointTests : EndpointTestBase
     [ClassData(typeof(EndpointTestData))]
     public async Task GetOrdersFromPage_Should_ReturnNonEmptyPage(int page)
     {
-        var query = new Query(page);
+        var query = new GetAllOrders.Query(page);
 
         var (response, result) = await Client
-            .GETAsync<Query, Response>($"api/orders?page={query.Page}", query);
+            .GETAsync<GetAllOrders.Query, GetAllOrders.Response>($"api/orders?page={query.Page}", query);
 
         response.Should().NotBeNull();
         response!.StatusCode.Should().Be(HttpStatusCode.PartialContent);

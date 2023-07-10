@@ -1,10 +1,10 @@
 ﻿using System.Net;
+using Application.Contracts.Courier.Queries;
 using FastEndpoints;
 using FluentAssertions;
 using Test.Endpoints.ClassData;
 using Test.Endpoints.Fixtures;
 using Xunit;
-using static Application.Contracts.Courier.Queries.GetAllCouriers;
 
 namespace Test.Endpoints.Couriers;
 
@@ -18,10 +18,10 @@ public class GetAllCouriersEndpointTests : EndpointTestBase
     [ClassData(typeof(EndpointTestData))]
     public async Task GetAllCouriersFromPage_Should_ReturnNonEmptyPage(int page)
     {
-        var query = new Query(page);
+        var query = new GetAllCouriers.Query(page);
 
         var (response, result) = await Client
-            .GETAsync<Query, Response>($"api/couriers?page={query.Page}", query);
+            .GETAsync<GetAllCouriers.Query, GetAllCouriers.Response>($"api/couriers?page={query.Page}", query);
 
         response.Should().NotBeNull();
         response!.StatusCode.Should().Be(HttpStatusCode.PartialContent);

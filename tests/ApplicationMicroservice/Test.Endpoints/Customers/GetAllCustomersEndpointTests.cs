@@ -1,10 +1,10 @@
 ﻿using System.Net;
+using Application.Contracts.Customer.Queries;
 using FastEndpoints;
 using FluentAssertions;
 using Test.Endpoints.ClassData;
 using Test.Endpoints.Fixtures;
 using Xunit;
-using static Application.Contracts.Customer.Queries.GetAllCustomers;
 
 namespace Test.Endpoints.Customers;
 
@@ -18,10 +18,10 @@ public class GetAllCustomersEndpointTests : EndpointTestBase
     [ClassData(typeof(EndpointTestData))]
     public async Task GetCustomersFromPage_Should_ReturnNonEmptyPage(int page)
     {
-        var query = new Query(page);
+        var query = new GetAllCustomers.Query(page);
 
         var (response, result) = await Client
-            .GETAsync<Query, Response>($"api/customers?page={query.Page}", query);
+            .GETAsync<GetAllCustomers.Query, GetAllCustomers.Response>($"api/customers?page={query.Page}", query);
 
         response.Should().NotBeNull();
         response!.StatusCode.Should().Be(HttpStatusCode.PartialContent);

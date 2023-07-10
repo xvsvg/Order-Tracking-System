@@ -3,45 +3,45 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{ADB8E876-F96F-41F3-A800-864502D1919B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "src\ApplicationMicroservice\Domain", "{ADB8E876-F96F-41F3-A800-864502D1919B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Common", "src\Domain\Domain.Common\Domain.Common.csproj", "{B6DD97BA-AF07-469D-B583-E461152B27A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Common", "src\ApplicationMicroservice\Domain\Domain.Common\Domain.Common.csproj", "{B6DD97BA-AF07-469D-B583-E461152B27A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Core", "src\Domain\Domain.Core\Domain.Core.csproj", "{4637A01B-FF93-472F-8DB3-8090F8F29235}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Core", "src\ApplicationMicroservice\Domain\Domain.Core\Domain.Core.csproj", "{4637A01B-FF93-472F-8DB3-8090F8F29235}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "src\Infrastructure", "{F3A3D2EC-EBFA-4E9F-BE05-31DA0FBCC711}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "src\ApplicationMicroservice\Infrastructure", "{F3A3D2EC-EBFA-4E9F-BE05-31DA0FBCC711}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.DataAccess", "src\Infrastructure\Infrastructure.DataAccess\Infrastructure.DataAccess.csproj", "{BA07C109-F508-420E-B558-75E2D4D8AC11}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.DataAccess", "src\ApplicationMicroservice\Infrastructure\Infrastructure.DataAccess\Infrastructure.DataAccess.csproj", "{BA07C109-F508-420E-B558-75E2D4D8AC11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Mapping", "src\Infrastructure\Infrastructure.Mapping\Infrastructure.Mapping.csproj", "{22A0EDFC-F952-4C16-9C82-BC6CD3CE4769}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Mapping", "src\ApplicationMicroservice\Infrastructure\Infrastructure.Mapping\Infrastructure.Mapping.csproj", "{22A0EDFC-F952-4C16-9C82-BC6CD3CE4769}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "src\Application", "{59AD4ED7-C4E9-4E9D-A7BF-A8906485C828}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "src\ApplicationMicroservice\Application", "{59AD4ED7-C4E9-4E9D-A7BF-A8906485C828}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Dto", "src\Application\Application.Dto\Application.Dto.csproj", "{095BB486-EBF3-41AA-B454-FFBB3D9B1B02}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Dto", "src\ApplicationMicroservice\Application\Application.Dto\Application.Dto.csproj", "{095BB486-EBF3-41AA-B454-FFBB3D9B1B02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.DataAccess.Contracts", "src\Application\Application.DataAccess.Contracts\Application.DataAccess.Contracts.csproj", "{9B32C210-E73C-498F-85F0-103D02805BF0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.DataAccess.Contracts", "src\ApplicationMicroservice\Application\Application.DataAccess.Contracts\Application.DataAccess.Contracts.csproj", "{9B32C210-E73C-498F-85F0-103D02805BF0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Playground", "src\Playground", "{0D64F46B-56A4-4A31-A9FC-E3B4F44E9646}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Playground", "src\ApplicationMicroservice\Playground", "{0D64F46B-56A4-4A31-A9FC-E3B4F44E9646}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playground", "src\Playground\Playground\Playground.csproj", "{B14DF392-154B-4715-AC55-7DA08634DF6A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playground", "src\ApplicationMicroservice\Playground\Playground\Playground.csproj", "{B14DF392-154B-4715-AC55-7DA08634DF6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Common", "src\Application\Application.Common\Application.Common.csproj", "{F304D9DA-3FED-4910-A6A3-8977E450DF87}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Common", "src\ApplicationMicroservice\Application\Application.Common\Application.Common.csproj", "{F304D9DA-3FED-4910-A6A3-8977E450DF87}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{164FCEE3-67CC-41C9-97DB-3E381CB39326}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApplicationMicroservice", "ApplicationMicroservice", "{26C6F8BD-899A-4A67-BC7C-4E8E60C52E13}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApplicationMicroservice", "src\ApplicationMicroservice", "{26C6F8BD-899A-4A67-BC7C-4E8E60C52E13}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{F6512897-A15D-4CB7-BBD3-FEA5281A02A8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "src\ApplicationMicroservice\Presentation", "{F6512897-A15D-4CB7-BBD3-FEA5281A02A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.Endpoints", "src\Presentation\Presentation.Endpoints\Presentation.Endpoints.csproj", "{39C89DCD-E231-4E15-A7F7-6D598470D5CB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.Endpoints", "src\ApplicationMicroservice\Presentation\Presentation.Endpoints\Presentation.Endpoints.csproj", "{39C89DCD-E231-4E15-A7F7-6D598470D5CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Contracts", "src\Application\Application.Contracts\Application.Contracts.csproj", "{DC342479-0B83-4014-A582-FB5F7A5DB99F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Contracts", "src\ApplicationMicroservice\Application\Application.Contracts\Application.Contracts.csproj", "{DC342479-0B83-4014-A582-FB5F7A5DB99F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Handlers", "src\Application\Application.Handlers\Application.Handlers.csproj", "{F3885098-7673-44FB-9345-8C0BC722A02F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Handlers", "src\ApplicationMicroservice\Application\Application.Handlers\Application.Handlers.csproj", "{F3885098-7673-44FB-9345-8C0BC722A02F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Validation", "src\Application\Application.Validation\Application.Validation.csproj", "{A391332D-FACB-49E8-80E3-6CD3EB9DB378}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Validation", "src\ApplicationMicroservice\Application\Application.Validation\Application.Validation.csproj", "{A391332D-FACB-49E8-80E3-6CD3EB9DB378}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playground.DeveloperEnvironment", "src\Playground\Playground.DeveloperEnvironment\Playground.DeveloperEnvironment.csproj", "{AFE3C439-A3A7-41AD-A3C8-DA9429BBDCE8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playground.DeveloperEnvironment", "src\ApplicationMicroservice\Playground\Playground.DeveloperEnvironment\Playground.DeveloperEnvironment.csproj", "{AFE3C439-A3A7-41AD-A3C8-DA9429BBDCE8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Tools", "tests\ApplicationMicroservice\Test.Tools\Test.Tools.csproj", "{F7C028E9-10BA-4513-ABE0-4293C74A4691}"
 EndProject
@@ -49,9 +49,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Core", "tests\Applicat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Endpoints", "tests\ApplicationMicroservice\Test.Endpoints\Test.Endpoints.csproj", "{CC863DF8-A314-4F52-9111-BA890E7CFFB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Seeding", "src\Infrastructure\Infrastructure.Seeding\Infrastructure.Seeding.csproj", "{6246EA26-7998-41E7-89B7-F02E05AD1B66}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Seeding", "src\ApplicationMicroservice\Infrastructure\Infrastructure.Seeding\Infrastructure.Seeding.csproj", "{6246EA26-7998-41E7-89B7-F02E05AD1B66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Middlewares", "src\Application\Application.Middlewares\Application.Middlewares.csproj", "{21B3D344-DDA3-4E19-96C2-8B337B216A77}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Middlewares", "src\ApplicationMicroservice\Application\Application.Middlewares\Application.Middlewares.csproj", "{21B3D344-DDA3-4E19-96C2-8B337B216A77}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k6", "k6", "{C20833BE-AA86-4676-A73D-0DD318C2F1BB}"
 	ProjectSection(SolutionItems) = preProject
@@ -59,7 +59,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k6", "k6", "{C20833BE-AA86-
 		tests\ApplicationMicroservice\stress-test.js = tests\ApplicationMicroservice\stress-test.js
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.WebAPI", "src\Presentation\Presentation.WebAPI\Presentation.WebAPI.csproj", "{1C32DE1B-BA98-44E3-95DB-0F240B551CD1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.WebAPI", "src\ApplicationMicroservice\Presentation\Presentation.WebAPI\Presentation.WebAPI.csproj", "{1C32DE1B-BA98-44E3-95DB-0F240B551CD1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApplicationMicroservice", "ApplicationMicroservice", "{C3C857A2-4F4A-487B-ADED-E61D3233E82C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -172,5 +174,10 @@ Global
 		{21B3D344-DDA3-4E19-96C2-8B337B216A77} = {59AD4ED7-C4E9-4E9D-A7BF-A8906485C828}
 		{C20833BE-AA86-4676-A73D-0DD318C2F1BB} = {26C6F8BD-899A-4A67-BC7C-4E8E60C52E13}
 		{1C32DE1B-BA98-44E3-95DB-0F240B551CD1} = {F6512897-A15D-4CB7-BBD3-FEA5281A02A8}
+		{59AD4ED7-C4E9-4E9D-A7BF-A8906485C828} = {C3C857A2-4F4A-487B-ADED-E61D3233E82C}
+		{ADB8E876-F96F-41F3-A800-864502D1919B} = {C3C857A2-4F4A-487B-ADED-E61D3233E82C}
+		{F3A3D2EC-EBFA-4E9F-BE05-31DA0FBCC711} = {C3C857A2-4F4A-487B-ADED-E61D3233E82C}
+		{0D64F46B-56A4-4A31-A9FC-E3B4F44E9646} = {C3C857A2-4F4A-487B-ADED-E61D3233E82C}
+		{F6512897-A15D-4CB7-BBD3-FEA5281A02A8} = {C3C857A2-4F4A-487B-ADED-E61D3233E82C}
 	EndGlobalSection
 EndGlobal

@@ -1,9 +1,8 @@
-﻿using Application.Handlers.Couriers;
+﻿using Application.Contracts.Courier.Commands;
+using Application.Handlers.Couriers;
 using FluentAssertions;
-using Infrastructure.Seeding.Helpers;
 using Test.Core.Fixtures;
 using Xunit;
-using static Application.Contracts.Courier.Commands.CreateCourier;
 
 namespace Test.Core.Handlers.Couriers;
 
@@ -17,9 +16,9 @@ public class CreateCourierTests : TestBase
     }
 
     [Fact]
-    public async Task CreateValidCustomer_Should_PassValidation_And_BeCreated()
+    public async Task CreateValidCourier_Should_PassValidation_And_BeCreated()
     {
-        var command = new Command(
+        var command = new CreateCourier.Command(
             "John",
             "Martin",
             "Doe",

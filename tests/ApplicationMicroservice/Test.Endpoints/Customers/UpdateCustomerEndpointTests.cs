@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using Application.DataAccess.Contracts;
+using Application.Contracts.Customer.Commands;
 using Domain.Core.Implementations;
 using FastEndpoints;
 using FluentAssertions;
@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Presentation.Endpoints.Customers;
 using Test.Endpoints.Fixtures;
 using Xunit;
-using static Application.Contracts.Customer.Commands.UpdateCustomer;
 
 namespace Test.Endpoints.Customers;
 
@@ -25,7 +24,7 @@ public class UpdateCustomerEndpointTests : EndpointTestBase
     [Fact]
     public async Task UpdateCustomer_Should_PassValidation()
     {
-        var command = new Command(
+        var command = new UpdateCustomer.Command(
             _customer.PersonId,
             "John",
             "Martin",
@@ -33,7 +32,7 @@ public class UpdateCustomerEndpointTests : EndpointTestBase
             _customer.ContactInfo.Select(x => x.Contact));
 
         var (response, result) = await Client
-            .PUTAsync<UpdateCustomerEndpoint, Command, Response>(command);
+            .PUTAsync<UpdateCustomerEndpoint, UpdateCustomer.Command, UpdateCustomer.Response>(command);
 
         response.Should().NotBeNull();
         response!.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -42,7 +41,7 @@ public class UpdateCustomerEndpointTests : EndpointTestBase
     [Fact]
     public async Task UpdateCustomer_Should_NotPassValidation()
     {
-        var command = new Command(
+        var command = new UpdateCustomer.Command(
             _customer.PersonId,
             "john",
             "Mart1n",
@@ -50,7 +49,7 @@ public class UpdateCustomerEndpointTests : EndpointTestBase
             _customer.ContactInfo.Select(x => x.Contact));
 
         var (response, result) = await Client
-            .PUTAsync<UpdateCustomerEndpoint, Command, Response>(command);
+            .PUTAsync<UpdateCustomerEndpoint, UpdateCustomer.Command, UpdateCustomer.Response>(command);
 
         response.Should().NotBeNull();
         response!.StatusCode.Should().Be(HttpStatusCode.BadRequest);

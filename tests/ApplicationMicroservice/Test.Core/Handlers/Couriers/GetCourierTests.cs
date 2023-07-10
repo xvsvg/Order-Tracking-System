@@ -1,40 +1,39 @@
-﻿using Application.Handlers.Customers;
+﻿using Application.Contracts.Courier.Queries;
+using Application.Handlers.Couriers;
 using FluentAssertions;
-using Infrastructure.Seeding.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Test.Core.Fixtures;
 using Xunit;
-using static Application.Contracts.Customer.Queries.GetCustomer;
 
 namespace Test.Core.Handlers.Couriers;
 
 public class GetCourierTests : TestBase
 {
-    private readonly GetCustomerHandler _handler;
+    private readonly GetCourierHandler _handler;
 
     public GetCourierTests(CoreDatabaseFixture database) : base(database)
     {
-        _handler = new GetCustomerHandler(database.Context);
+        _handler = new GetCourierHandler(database.Context);
     }
 
     [Fact]
-    public async Task GetCustomer_Should_Find()
+    public async Task GetCourier_Should_Find()
     {
-        var customer = await Database.Context.Customers.FirstAsync();
-        var query = new Query(customer.PersonId);
+        var customer = await Database.Context.Couriers.FirstAsync();
+        var query = new GetCourier.Query(customer.PersonId);
 
         var response = await _handler.Handle(query, default);
 
-        response.Customer.Should().NotBeNull();
+        response.Courier.Should().NotBeNull();
     }
 
     [Fact]
-    public async Task GetCustomer_Should_NotFind()
+    public async Task GetCourier_Should_NotFind()
     {
-        var query = new Query(Guid.NewGuid());
+        var query = new GetCourier.Query(Guid.NewGuid());
 
         var response = await _handler.Handle(query, default);
 
-        response.Customer.Should().BeNull();
+        response.Courier.Should().BeNull();
     }
 }

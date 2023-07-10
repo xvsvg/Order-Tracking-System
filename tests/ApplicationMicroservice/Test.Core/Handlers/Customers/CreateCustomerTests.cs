@@ -1,9 +1,8 @@
-﻿using Application.Handlers.Customers;
+﻿using Application.Contracts.Customer.Commands;
+using Application.Handlers.Customers;
 using FluentAssertions;
-using Infrastructure.Seeding.Helpers;
 using Test.Core.Fixtures;
 using Xunit;
-using static Application.Contracts.Customer.Commands.CreateCustomer;
 
 namespace Test.Core.Handlers.Customers;
 
@@ -19,7 +18,7 @@ public class CreateCustomerTests : TestBase
     [Fact]
     public async Task CreateValidCustomer_Should_PassValidation_And_BeCreated()
     {
-        var command = new Command(
+        var command = new CreateCustomer.Command(
             "John",
             "Martin",
             "Doe",

@@ -1,12 +1,10 @@
 ﻿using System.Net;
-using Application.DataAccess.Contracts;
+using Application.Contracts.Courier.Queries;
 using FastEndpoints;
 using FluentAssertions;
-using Infrastructure.Seeding.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Test.Endpoints.Fixtures;
 using Xunit;
-using static Application.Contracts.Courier.Queries.GetCourier;
 
 namespace Test.Endpoints.Couriers;
 
@@ -20,10 +18,10 @@ public class GetCourierEndpointTests : EndpointTestBase
     public async Task GetCourierById_Should_Find()
     {
         var courier = await Database.Couriers.FirstAsync();
-        var query = new Query(courier.PersonId);
+        var query = new GetCourier.Query(courier.PersonId);
 
         var (response, result) = await Client
-            .GETAsync<Query, Response>($"api/couriers/{query.Id}", query);
+            .GETAsync<GetCourier.Query, GetCourier.Response>($"api/couriers/{query.Id}", query);
 
         response.Should().NotBeNull();
         response!.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -35,10 +33,10 @@ public class GetCourierEndpointTests : EndpointTestBase
     [Fact]
     public async Task GetCourierById_Should_NotFind()
     {
-        var query = new Query(Guid.NewGuid());
+        var query = new GetCourier.Query(Guid.NewGuid());
 
         var (response, _) = await Client
-            .GETAsync<Query, Response>($"api/couriers/{query.Id}", query);
+            .GETAsync<GetCourier.Query, GetCourier.Response>($"api/couriers/{query.Id}", query);
 
         response.Should().NotBeNull();
         response!.StatusCode.Should().Be(HttpStatusCode.NotFound);

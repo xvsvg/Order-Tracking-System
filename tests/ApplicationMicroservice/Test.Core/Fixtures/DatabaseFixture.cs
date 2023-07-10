@@ -1,6 +1,5 @@
 using System.Data;
 using System.Data.Common;
-using Infrastructure.Seeding.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 using Respawn;
@@ -34,6 +33,32 @@ public abstract class DatabaseFixture : IAsyncLifetime
     public DbConnection Connection { get; private set; }
     protected ServiceProvider Provider { get; private set; }
 
+    public async Task InitializeAsync()
+    {
+        await Container.StartAsync();
+
+        var collection = new ServiceCollection();
+        ConfigureServices(collection);
+
+        Provider = collection.BuildServiceProvider();
+        await UseProviderAsync(Provider);
+
+        Connection = CreateConnection();
+        var opened = await Connection.TryOpenAsync(default);
+
+        await SeedDatabaseAsync();
+        await InitializeRespawnerAsync();
+
+        if (opened) await Connection.CloseAsync();
+    }
+
+    public virtual async Task DisposeAsync()
+    {
+        await Connection.DisposeAsync();
+        await Container.StopAsync();
+        await Provider.DisposeAsync();
+    }
+
     public virtual async Task ResetAsync()
     {
         var wasOpen = Connection.State is ConnectionState.Open;
@@ -47,28 +72,6 @@ public abstract class DatabaseFixture : IAsyncLifetime
             await Connection.CloseAsync();
     }
 
-    public async Task InitializeAsync()
-    {
-        await Container.StartAsync();
-
-        var collection = new ServiceCollection();
-        ConfigureServices(collection);
-
-        Provider = collection.BuildServiceProvider();
-        await UseProviderAsync(Provider);
-
-        Connection = CreateConnection();
-        var opened = await Connection.TryOpenAsync(default);
-        
-        await SeedDatabaseAsync();
-        await InitializeRespawnerAsync();
-        
-        if (opened)
-        {
-            await Connection.CloseAsync();
-        }
-    }
-
     private async Task InitializeRespawnerAsync()
     {
         _respawner = await Respawner.CreateAsync(Connection, new RespawnerOptions
@@ -76,13 +79,6 @@ public abstract class DatabaseFixture : IAsyncLifetime
             DbAdapter = DbAdapter.Postgres,
             SchemasToInclude = new[] { "public" }
         });
-    }
-
-    public virtual async Task DisposeAsync()
-    {
-        await Connection.DisposeAsync();
-        await Container.StopAsync();
-        await Provider.DisposeAsync();
     }
 
     protected virtual void ConfigureServices(IServiceCollection collection)

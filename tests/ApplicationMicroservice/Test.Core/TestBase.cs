@@ -16,8 +16,12 @@ public class TestBase : IAsyncLifetime
     }
 
     public Task InitializeAsync()
-        => Task.CompletedTask;
+    {
+        return Task.CompletedTask;
+    }
 
     public Task DisposeAsync()
-        => Reset();
+    {
+        return Reset();
+    }
 }

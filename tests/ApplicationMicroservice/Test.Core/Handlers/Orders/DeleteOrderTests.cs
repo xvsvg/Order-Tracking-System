@@ -1,10 +1,9 @@
-﻿using Application.Handlers.Orders;
+﻿using Application.Contracts.Order.Commands;
+using Application.Handlers.Orders;
 using FluentAssertions;
-using Infrastructure.Seeding.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Test.Core.Fixtures;
 using Xunit;
-using static Application.Contracts.Order.Commands.DeleteOrder;
 
 namespace Test.Core.Handlers.Orders;
 
@@ -21,7 +20,7 @@ public class DeleteOrderTests : TestBase
     public async Task DeleteOrder_Should_SuccessfullyDelete()
     {
         var order = await Database.Context.Orders.FirstAsync();
-        var command = new Command(order.OrderId);
+        var command = new DeleteOrder.Command(order.OrderId);
 
         var response = await _handler.Handle(command, default);
 

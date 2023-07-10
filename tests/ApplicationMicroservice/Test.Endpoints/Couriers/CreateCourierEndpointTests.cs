@@ -1,10 +1,10 @@
 ﻿using System.Net;
+using Application.Contracts.Courier.Commands;
 using FastEndpoints;
 using FluentAssertions;
 using Presentation.Endpoints.Couriers;
 using Test.Endpoints.Fixtures;
 using Xunit;
-using static Application.Contracts.Courier.Commands.CreateCourier;
 
 namespace Test.Endpoints.Couriers;
 
@@ -17,14 +17,14 @@ public class CreateCourierEndpointTests : EndpointTestBase
     [Fact]
     public async Task CreateValidCustomer_Should_PassValidation()
     {
-        var command = new Command(
+        var command = new CreateCourier.Command(
             "John",
             "Martin",
             "Doe",
             new[] { "whatever@gmail.com" });
 
         var (response, result) = await Client
-            .POSTAsync<CreateCourierEndpoint, Command, Response>(command);
+            .POSTAsync<CreateCourierEndpoint, CreateCourier.Command, CreateCourier.Response>(command);
 
         response.Should().NotBeNull();
         response!.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -37,14 +37,14 @@ public class CreateCourierEndpointTests : EndpointTestBase
     [Fact]
     public async Task CreateInvalidCustomer_Should_NotPassValidation()
     {
-        var command = new Command(
+        var command = new CreateCourier.Command(
             "john",
             "Mart1n",
             "do",
             new[] { "whatever@gmail.com" });
 
         var (response, result) = await Client
-            .POSTAsync<CreateCourierEndpoint, Command, Response>(command);
+            .POSTAsync<CreateCourierEndpoint, CreateCourier.Command, CreateCourier.Response>(command);
 
         response.Should().NotBeNull();
         response!.StatusCode.Should().Be(HttpStatusCode.BadRequest);

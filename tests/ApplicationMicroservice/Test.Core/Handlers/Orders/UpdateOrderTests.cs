@@ -1,10 +1,9 @@
-﻿using Application.Handlers.Orders;
+﻿using Application.Contracts.Order.Commands;
+using Application.Handlers.Orders;
 using FluentAssertions;
-using Infrastructure.Seeding.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Test.Core.Fixtures;
 using Xunit;
-using static Application.Contracts.Order.Commands.UpdateOrder;
 
 namespace Test.Core.Handlers.Orders;
 
@@ -16,12 +15,12 @@ public class UpdateOrderTests : TestBase
     {
         _handler = new UpdateOrderHandler(database.Context);
     }
-    
+
     [Fact]
     public async Task UpdateOrder_ShouldNotThrow()
     {
         var order = await Database.Context.Orders.FirstAsync();
-        var command = new Command(
+        var command = new UpdateOrder.Command(
             order.OrderId,
             "New name",
             order.DispatchDate,
