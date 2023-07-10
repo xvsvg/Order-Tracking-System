@@ -59,7 +59,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k6", "k6", "{C20833BE-AA86-
 		tests\ApplicationMicroservice\stress-test.js = tests\ApplicationMicroservice\stress-test.js
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.WebAPI", "Presentation.WebAPI\Presentation.WebAPI.csproj", "{1C32DE1B-BA98-44E3-95DB-0F240B551CD1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.WebAPI", "src\Presentation\Presentation.WebAPI\Presentation.WebAPI.csproj", "{1C32DE1B-BA98-44E3-95DB-0F240B551CD1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
