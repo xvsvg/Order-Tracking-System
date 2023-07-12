@@ -8,6 +8,6 @@ public static class RoleMapper
 {
     public static RoleDto ToDto(this OtsIdentityRole role)
     {
-        return new RoleDto(role.Id, role.Name ?? throw new UnknownRoleException());
+        return new RoleDto(role.Id, role.Name ?? string.Empty);
     }
 }
