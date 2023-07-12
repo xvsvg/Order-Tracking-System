@@ -1,3 +1,3 @@
 ﻿namespace Application.Dto;
 
-public readonly record struct UserDto(Guid Id, string Username);
+public readonly record struct UserDto(Guid Id, string Username, string? RefreshToken, DateTime TokenExpiration);
